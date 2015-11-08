@@ -1,0 +1,12 @@
+body {
+  font-family: sans-serif;
+}
+td, th {
+  padding: 0.5em;
+}
+td.good {
+  background-color: rgba(0, 255, 0, 0.50);
+}
+td.bad {
+  background-color: rgba(255, 0, 0, 0.50);
+}
