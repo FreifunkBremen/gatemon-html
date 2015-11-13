@@ -1,8 +1,14 @@
 body {
   font-family: sans-serif;
+  font-size: .7em;
 }
 td, th {
   padding: 0.5em;
+  text-align: center;
+  border: 1px solid black;
+}
+table {
+  border-collapse: collapse;
 }
 td.good {
   background-color: rgba(0, 255, 0, 0.50);
