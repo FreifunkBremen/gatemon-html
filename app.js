@@ -1,37 +1,37 @@
 $(function() {
   $.ajax({
-    url: 'http://status.ffhb.mortzu.de/status.json',
+    url: '/data/merged.json',
     success: parseResponse,
     dataType: 'json'
   });
 
   function parseResponse(data) {
-    data['vpn-servers'].forEach(function(server) {
-      var tr = $('<tr><td>' + server.name + '</td><td class="status-ipv4"></td><td class="status-ipv6"></td><td class="status-dns-ipv4"></td><td class="status-dns-ipv6"></td></tr>').appendTo($('#mytable tbody'));
-      if (server.ipv4) {
-        tr.find('td.status-ipv4').addClass('good');
-      } else {
-        tr.find('td.status-ipv4').addClass('bad');
-      }
-
-      if (server.ipv6) {
-        tr.find('td.status-ipv6').addClass('good');
-      } else {
-        tr.find('td.status-ipv6').addClass('bad');
-      }
-
-      if (server.dns_ipv4) {
-        tr.find('td.status-dns-ipv4').addClass('good');
-      } else {
-        tr.find('td.status-dns-ipv4').addClass('bad');
-      }
-
-      if (server.dns_ipv6) {
-        tr.find('td.status-dns-ipv6').addClass('good');
-      } else {
-        tr.find('td.status-dns-ipv6').addClass('bad');
-      }
+    jQuery.each(["vpn01", "vpn02", "vpn03", "vpn04", "vpn05", "vpn06"], function(vpnindex, vpnserver) {
+      $('<th colspan="6">' + vpnserver + '</th>').appendTo($('#servertable thead tr#vpnserver'));
+      $('<td colspan="2">Uplink</td><td colspan="2">RDNSS</td><td colspan="2">NTP</td>').appendTo($('#servertable thead tr#vpnservices'));
+      $('<td>IPv4</td><td>IPv6</td><td>IPv4</td><td>IPv6</td><td>IPv4</td><td>IPv6</td>').appendTo($('#servertable tr#vpnservicesfamily'));
     });
-    $('#mytable tfoot td time').text(data.lastupdated);
+
+    data.forEach(function(meshmon) {
+      var tmp_content = '<tr id=' + meshmon['uuid'] + '><td title="Name: ' + meshmon['name'] + '\nProvider: ' + meshmon['provider'] + '\nZuletzt aktualisiert: ' + meshmon['lastupdated'] + '">' + meshmon['uuid'] + '</td>';
+
+      meshmon['vpn-servers'].forEach(function(meshvpnserver) {
+        jQuery.each(["uplink", "dns", "ntp"], function(index, value) {
+          if (meshvpnserver[value][0]['ipv4']) {
+            tmp_content += '<td class="good"></td>';
+          } else {
+            tmp_content += '<td class="bad"></td>';
+          }
+
+          if (meshvpnserver[value][0]['ipv6']) {
+            tmp_content += '<td class="good"></td>';
+          } else {
+            tmp_content += '<td class="bad"></td>';
+          }
+        });
+      });
+
+      $(tmp_content + '</tr>').appendTo($('#servertable tbody'));
+    });
   }
 });
