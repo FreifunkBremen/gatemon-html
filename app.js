@@ -1,9 +1,11 @@
 $(function() {
-  $.ajax({
-    url: '/data/merged.json',
-    success: parseResponse,
-    dataType: 'json'
-  });
+  setInterval(function(){
+    $.ajax({
+      url: '/data/merged.json',
+      success: parseResponse,
+      dataType: 'json'
+    });
+  },60000);
 
   function parseResponse(data) {
     jQuery.each(["vpn01", "vpn02", "vpn03", "vpn04", "vpn05", "vpn06"], function(vpnindex, vpnserver) {
