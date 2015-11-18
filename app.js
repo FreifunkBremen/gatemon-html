@@ -1,13 +1,19 @@
 $(function() {
-  setInterval(function(){
+   var loading = function(){
     $.ajax({
       url: '/data/merged.json',
       success: parseResponse,
       dataType: 'json'
     });
-  },60000);
+  };
+  loading();
+  setInterval(loading,60000);
 
   function parseResponse(data) {
+    $("#servertable tbody").html("");
+    $("#servertable thead tr#vpnserver").html("");
+    $("#servertable thead tr#vpnservices").html("");
+    $("#servertable thead tr#vpnservicesfamily").html("");
     jQuery.each(["vpn01", "vpn02", "vpn03", "vpn04", "vpn05", "vpn06"], function(vpnindex, vpnserver) {
       $('<th colspan="6">' + vpnserver + '</th>').appendTo($('#servertable thead tr#vpnserver'));
       $('<td colspan="2">Uplink</td><td colspan="2">RDNSS</td><td colspan="2">NTP</td>').appendTo($('#servertable thead tr#vpnservices'));
