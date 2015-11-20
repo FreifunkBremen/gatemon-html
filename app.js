@@ -1,37 +1,58 @@
 $(function() {
+  // Fetch JSON file
   $.ajax({
     url: '/data/merged.json',
     success: parseResponse,
     dataType: 'json'
   });
 
+  // Parse response
   function parseResponse(data) {
-    jQuery.each(["vpn01", "vpn02", "vpn03", "vpn04", "vpn05", "vpn06"], function(vpnindex, vpnserver) {
-      $('<th colspan="6">' + vpnserver + '</th>').appendTo($('#servertable thead tr#vpnserver'));
-      $('<td colspan="2">Uplink</td><td colspan="2">RDNSS</td><td colspan="2">NTP</td>').appendTo($('#servertable thead tr#vpnservices'));
-      $('<td>IPv4</td><td>IPv6</td><td>IPv4</td><td>IPv6</td><td>IPv4</td><td>IPv6</td>').appendTo($('#servertable tr#vpnservicesfamily'));
-    });
+    // Reset counter for array
+    meshmon_counter = 0;
 
+    // Iterate over meshmons
     data.forEach(function(meshmon) {
-      var tmp_content = '<tr id=' + meshmon['uuid'] + '><td title="Name: ' + meshmon['name'] + '\nProvider: ' + meshmon['provider'] + '\nZuletzt aktualisiert: ' + meshmon['lastupdated'] + '">' + meshmon['uuid'] + '</td>';
+      // Increment counter
+      meshmon_counter++;
 
-      meshmon['vpn-servers'].forEach(function(meshvpnserver) {
-        jQuery.each(["uplink", "dns", "ntp"], function(index, value) {
-          if (meshvpnserver[value][0]['ipv4']) {
-            tmp_content += '<td class="good"></td>';
-          } else {
-            tmp_content += '<td class="bad"></td>';
-          }
+      // Iterate over meshmon data
+      meshmon['vpn-servers'].forEach(function(vpnserver_data) {
+        // Short VPN hostname
+        vpnserver_name = vpnserver_data['name'].split('.')[0];
 
-          if (meshvpnserver[value][0]['ipv6']) {
-            tmp_content += '<td class="good"></td>';
-          } else {
-            tmp_content += '<td class="bad"></td>';
+        // Check if an element with ID of vpnserver exists
+        if ($("#" + vpnserver_name).length == 0) {
+          $('<div class="col-md-6 col-sm-6"><div class="well"><table class="table" id="' + vpnserver_name + '"><thead><tr id="' + vpnserver_name + 'server"></tr><tr id="' + vpnserver_name + 'services"><td></td></tr><tr id="' + vpnserver_name + 'servicesfamily"><td></td></tr></thead><tbody></tbody></table></div></div>').appendTo($('#content'));
+        }
+
+        $('<tr id="' + vpnserver_name + meshmon['uuid'] + '"><td title="Name: ' + meshmon['name'] + '\nProvider: ' + meshmon['provider'] + '\nZuletzt aktualisiert: ' + meshmon['lastupdated'] + '">' + meshmon['uuid'] + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
+
+        // Iterate over services returned by meshmon
+        counter = 0;
+        for (var key in vpnserver_data) {
+          // Check if item is an array
+          if (Object.prototype.toString.call(vpnserver_data[key]) === '[object Array]') {
+            counter++;
+            if (meshmon_counter <= 1) {
+              $('<td colspan="2" class="text-center">' + key + '</td>').appendTo($('#' + vpnserver_name + 'services'));
+              $('<td class="text-center">IPv4</td><td class="text-center">IPv6</td>').appendTo($('#' + vpnserver_name + 'servicesfamily'));
+            }
+
+            $.each(['ipv4', 'ipv6'], function() {
+              if (vpnserver_data[key][0][this]) {
+                $('<td class="good"></td>').appendTo($('#' + vpnserver_name + meshmon['uuid']));
+              } else {
+                $('<td class="bad"></td>').appendTo($('#' + vpnserver_name + meshmon['uuid']));
+              }
+            });
           }
-        });
+        }
+
+        if (meshmon_counter <= 1) {
+          $('<th colspan="' + (2 * counter + 1) + '" class="text-center">' + vpnserver_data['name'] + '</th>').appendTo($('#' + vpnserver_name + 'server'));
+        }
       });
-
-      $(tmp_content + '</tr>').appendTo($('#servertable tbody'));
     });
   }
 });
