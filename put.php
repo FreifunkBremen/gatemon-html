@@ -11,7 +11,7 @@ $token_dir = __DIR__ . '/token';
 $json = file_get_contents('php://input');
 
 // Check for valid API key
-if (!isset($_GET['token']) || !file_exists($token_dir . '/' . $_GET['token'])) {
+if (!isset($_GET['token']) || !file_exists($token_dir . '/' . preg_replace('/[^\da-z]/i', '', $_GET['token']))) {
   header('Status: 403 Forbidden');
   error_log('API token missing!');
   exit(2);
@@ -52,7 +52,7 @@ if (!ctype_xdigit($json_decoded['uuid'])) {
 }
 
 // Store JSON
-file_put_contents($data_dir . '/' . substr($json_decoded['uuid'], 0, 30) . '.json', $json);
+file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($json_decoded['uuid'], 0, 30)) . '.json', $json);
 
 // Clean up old files
 foreach(glob($data_dir . '/*') as $file) {
