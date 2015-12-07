@@ -94,16 +94,37 @@ class Summarizer {
     $numTopics = 0;
     $numTopicsGood = 0;
     foreach ($this->overallServerState as &$serverState) {
+      $numServerValues = 0;
+      $numServerValuesGood = 0;
+      $numServerTopics = 0;
+      $numServerTopicsGood = 0;
       foreach ($serverState as &$topicState) {
         foreach ($topicState as &$addrTypeState) {
           $addrTypeState{"bad"} = $this->numMonitors - $addrTypeState{"good"};
           $addrTypeState{"percent-good"} = intval(($addrTypeState{"good"} / $this->numMonitors) * 100);
           $numTopics++;
+          $numServerValues+=$this->numMonitors;
+          $numServerValuesGood+=$addrTypeState{"good"};
+          $numServerTopics++;
           if ($addrTypeState{"percent-good"} >= self::GOOD_PERCENT_THRESHOLD) {
             $numTopicsGood++;
+            $numServerTopicsGood++;
           }
         }
       }
+
+      $serverState{"summary"} = array(
+        "values" => array(
+          "good" => $numServerValuesGood,
+          "bad" => $numServerValues - $numServerValuesGood,
+          "percent-good" => intval(($numServerValuesGood / $numServerValues) * 100),
+        ),
+        "topics" => array(
+          "good" => $numServerTopicsGood,
+          "bad" => $numServerTopics - $numServerTopicsGood,
+          "percent-good" => intval(($numServerTopicsGood / $numServerTopics) * 100),
+        ),
+      );
     }
 
     $overallState = array(
