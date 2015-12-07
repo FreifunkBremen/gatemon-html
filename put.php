@@ -59,8 +59,10 @@ foreach(glob($data_dir . '/*') as $file) {
   if (basename($file) == 'merged.json')
     continue;
 
-  if (filemtime($file) < strtotime('-8 hours'))
+  if (filemtime($file) < strtotime('-8 hours')) {
     unlink($file);
+    continue;
+  }
 
   $json_merged[] = json_decode(file_get_contents($file));
 }
