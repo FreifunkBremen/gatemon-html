@@ -1,3 +1,10 @@
+function shortenUuid(uuid) {
+  if (uuid.length <= 10)
+    return uuid;
+  else
+    return uuid.substr(0,10) + "…";
+}
+
 $(function() {
   // Fetch JSON file
   $.ajax({
@@ -26,7 +33,7 @@ $(function() {
           $('<div class="col-md-6 col-sm-6"><div class="well"><table class="table" id="' + vpnserver_name + '"><thead><tr id="' + vpnserver_name + 'server"></tr><tr id="' + vpnserver_name + 'services"><td></td></tr><tr id="' + vpnserver_name + 'servicesfamily"><td></td></tr></thead><tbody></tbody></table></div></div>').appendTo($('#content'));
         }
 
-        $('<tr id="' + vpnserver_name + meshmon['uuid'] + '"><td title="Name: ' + meshmon['name'] + '\nProvider: ' + meshmon['provider'] + '\nZuletzt aktualisiert: ' + meshmon['lastupdated'] + '">' + meshmon['uuid'] + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
+        $('<tr id="' + vpnserver_name + meshmon['uuid'] + '"><td title="Name: ' + meshmon['name'] + '\nProvider: ' + meshmon['provider'] + '\nZuletzt aktualisiert: ' + meshmon['lastupdated'] + '">' + shortenUuid(meshmon['uuid']) + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
 
         // Iterate over services returned by meshmon
         counter = 0;
