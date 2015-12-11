@@ -1,3 +1,5 @@
+.htaccess
+local.css
 data/*
 !data/.gitkeep
 token/*
