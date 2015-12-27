@@ -43,7 +43,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 // Check if uuid is set in JSON
 if (!isset($json_decoded['uuid'])) {
   header('Status: 400 Bad Request');
-  error_log('Missing uuid in JSON');
+  error_log('Missing UUID in JSON');
   exit(2);
 }
 
