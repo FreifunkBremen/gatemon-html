@@ -30,7 +30,7 @@ $(function() {
 
         // Check if an element with ID of vpnserver exists
         if ($("#" + vpnserver_name).length == 0) {
-          $('<div class="col-md-6 col-sm-6"><div class="well"><table class="table" id="' + vpnserver_name + '"><thead><tr id="' + vpnserver_name + 'server"></tr><tr id="' + vpnserver_name + 'services"><td></td></tr><tr id="' + vpnserver_name + 'servicesfamily"><td></td></tr></thead><tbody></tbody></table></div></div>').appendTo($('#content'));
+          $('<div class="col-lg-6 col-md-12"><div class="well"><table class="table" id="' + vpnserver_name + '"><thead><tr id="' + vpnserver_name + 'server"></tr><tr id="' + vpnserver_name + 'services"><td></td></tr><tr id="' + vpnserver_name + 'servicesfamily"><td></td></tr></thead><tbody></tbody></table></div></div>').appendTo($('#content'));
         }
 
         $('<tr id="' + vpnserver_name + meshmon['uuid'] + '"><td title="Name: ' + meshmon['name'] + '\nProvider: ' + meshmon['provider'] + '\nZuletzt aktualisiert: ' + meshmon['lastupdated'] + '">' + shortenUuid(meshmon['uuid']) + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
