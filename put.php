@@ -54,6 +54,16 @@ if (!ctype_xdigit($json_decoded['uuid'])) {
   exit(2);
 }
 
+// Check for time deviation larger 1 minute
+if (abs(strtotime($json_decoded['lastupdated']) - time()) > 60) {
+    header('Status: 400 Bad Request');
+    error_log('Node date deviation too large');
+    exit(2);
+}
+
+// Overwrite lastupdated with servers time to make timestamps comparable
+$json_decoded['lastupdated'] = time();
+
 // Store JSON
 file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($json_decoded['uuid'], 0, 30)) . '.json', $json);
 
