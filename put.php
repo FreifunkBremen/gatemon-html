@@ -85,7 +85,7 @@ if (!ctype_xdigit($json_decoded['uuid'])) {
 }
 
 // Check for time deviation larger 1 minute
-if (abs(strtotime($json_decoded['lastupdated']) - time()) > 60) {
+if (abs(strtotime($json_decoded['lastupdated']) - time()) > 90) {
     header('Status: 400 Bad Request');
     error_log('Node date deviation too large');
     exit(2);
