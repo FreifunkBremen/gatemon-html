@@ -1,6 +1,6 @@
-body {
-/*  font-family: "Merriweather", "PT Serif", Georgia, "Times New Roman", serif;
-  font-size: .5em; */
+.container {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
 }
 .well {
   padding: 10px;
