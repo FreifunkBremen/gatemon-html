@@ -1,6 +1,7 @@
 .htaccess
 local.css
-data/*
+data/
 !data/.gitkeep
-token/*
+token/
 !token/.gitkeep
+vendor/
