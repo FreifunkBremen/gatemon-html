@@ -1,7 +1,7 @@
 <?php
 
 /*
-2016, mortzu <mr@planetcyborg.de>.
+2016, mortzu <mortzu@gmx.de>.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
