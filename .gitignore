@@ -3,5 +3,5 @@ local.css
 data/
 !data/.gitkeep
 token/
-!token/.gitkeep
+!token/.htaccess
 vendor/
