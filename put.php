@@ -30,8 +30,9 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED O
 POSSIBILITY OF SUCH DAMAGE.
 */
 
-// Include summarizer class
+// Include helper classes
 require_once __DIR__ . '/Summarizer.class.php';
+require_once __DIR__ . '/InfluxUploader.php';
 
 // Directory to store JSON files
 $data_dir = __DIR__ . '/data';
@@ -49,6 +50,8 @@ if (!isset($_GET['token']) || !file_exists($token_dir . '/' . preg_replace('/[^\
   error_log('API token missing!');
   exit(2);
 }
+
+$config = parse_ini_file(__DIR__ . "/config.ini", TRUE);
 
 // Decode JSON to array
 $json_decoded = json_decode($json, true);
@@ -96,6 +99,9 @@ $json_decoded['lastupdated'] = time();
 
 // Store JSON
 file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($json_decoded['uuid'], 0, 30)) . '.json', $json);
+
+// Upload to statistics database
+uploadToInfluxDB($json_decoded, $config['influxdb']);
 
 $summarizer = new Summarizer();
 
