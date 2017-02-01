@@ -43,9 +43,11 @@ function uploadToInfluxDB($json, $influxConfig) {
     $serverName = $serverState['name'];
     foreach (array('ntp', 'addresses', 'dns', 'uplink') as $topic) {
       foreach (array('ipv4', 'ipv6') as $addrType) {
+        $value = '0.0';
         if ($serverState[$topic][0][$addrType]) {
-          $uploadText .= "gatemon,addrtype=$addrType,server=$serverName,gatemon=$gatemonId $topic=1.0\n";
+          $value = '1.0';
         }
+        $uploadText .= "gatemon,addrtype=$addrType,server=$serverName,gatemon=$gatemonId $topic=$value\n";
       }
     }
   }
