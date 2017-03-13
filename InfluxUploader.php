@@ -30,6 +30,10 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED O
 POSSIBILITY OF SUCH DAMAGE.
 */
 
+function escapeInfluxTagValue($str) {
+  return addcslashes($str, ",= ");
+}
+
 // Uploads the parsed results from one Gatemon client to InfluxDB
 function uploadToInfluxDB($json, $influxConfig) {
   if (!$influxConfig['enabled']) {
@@ -37,12 +41,12 @@ function uploadToInfluxDB($json, $influxConfig) {
   }
 
   $uploadText = '';
-  $gatemonId = $json['uuid'];
-  $gatemonName = $json['name'];
-  $gatemonProvider = $json['provider'];
+  $gatemonId = escapeInfluxTagValue($json['uuid']);
+  $gatemonName = escapeInfluxTagValue($json['name']);
+  $gatemonProvider = escapeInfluxTagValue($json['provider']);
 
   foreach ($json['vpn-servers'] as $serverState) {
-    $serverName = $serverState['name'];
+    $serverName = escapeInfluxTagValue($serverState['name']);
     foreach (array('ntp', 'addresses', 'dns', 'uplink') as $topic) {
       foreach (array('ipv4', 'ipv6') as $addrType) {
         $value = '0.0';
