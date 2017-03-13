@@ -38,6 +38,8 @@ function uploadToInfluxDB($json, $influxConfig) {
 
   $uploadText = '';
   $gatemonId = $json['uuid'];
+  $gatemonName = $json['name'];
+  $gatemonProvider = $json['provider'];
 
   foreach ($json['vpn-servers'] as $serverState) {
     $serverName = $serverState['name'];
@@ -47,7 +49,7 @@ function uploadToInfluxDB($json, $influxConfig) {
         if ($serverState[$topic][0][$addrType]) {
           $value = '1.0';
         }
-        $uploadText .= "gatemon,addrtype=$addrType,server=$serverName,gatemon=$gatemonId $topic=$value\n";
+        $uploadText .= "gatemon,addrtype=$addrType,server=$serverName,gatemon=$gatemonId,gatemon_name=$gatemonName,gatemon_provider=$gatemonProvider $topic=$value\n";
       }
     }
   }
