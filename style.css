@@ -6,12 +6,12 @@
   padding: 10px;
 }
 td.good {
-  background-color: rgba(0, 255, 0, 0.50);
+  background-color: rgba(0, 255, 0, 0.50) !important;
   border-right: 1px solid #f5f5f5;
   border-left: 1px solid #f5f5f5;
 }
 td.bad  {
-  background-color: rgba(255, 0, 0, 0.50);
+  background-color: rgba(255, 0, 0, 0.50) !important;
   border-right: 1px solid #f5f5f5;
   border-left: 1px solid #f5f5f5;
 }
