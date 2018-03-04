@@ -63,9 +63,13 @@ if __name__ == "__main__":
     services = defaultdict(lambda: {"total": 0, "good": 0, "bad": 0})
     # stores all server host names that were encountered in reports:
     knownHostNames = set()
+    # stores a perfdata line for each gatemon
+    monitorPerfLines = []
 
     for monitor in mergedJson:
         lastUpdated = dateutil.parser.parse(monitor["lastupdated"])
+        age = nowTime - lastUpdated
+        monitorPerfLines.append("gatemon_%s=%ds;;%d" % (monitor["name"], age.total_seconds(), args.max_age))
         if lastUpdated < cutoffTime:
             logVerbose("ignoring gatemon \"%s\" because lastupdated time (%s) is before cutoff time (%s)" % (
                 monitor["name"], lastUpdated, cutoffTime))
@@ -147,7 +151,11 @@ if __name__ == "__main__":
     for (perfDataLine, readableLine) in reportedServices:
         resultText += "\n%s" % readableLine
 
-    resultText += "|" + (" ".join([ perfDataLine for (perfDataLine, readableLine) in reportedServices ])) + "\n"
+    resultText += "|" \
+            + (" ".join([ perfDataLine for (perfDataLine, readableLine) in reportedServices ])) \
+            + " " \
+            + (" ".join(monitorPerfLines)) \
+            + "\n"
 
     print resultText
     sys.exit(cumulatedLevel)
