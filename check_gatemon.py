@@ -8,6 +8,8 @@ import sys
 import re
 from collections import defaultdict
 import argparse
+import datetime
+import dateutil.parser
 import requests
 import json
 import traceback
@@ -21,19 +23,21 @@ def handleException(exc_type, exc_value, exc_traceback):
     print "UNKNOWN (Exception %s: %s)" % (exc_type, exc_value)
     sys.exit(3)
 
-
 if __name__ == "__main__":
     sys.excepthook = handleException
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--url", required=True, help="URL of gatemon page")
     parser.add_argument("-s", "--server", help="server whose status shall be checked. Optionally, append \"=<label>\" to set server label.", action="append", default=[])
-    #parser.add_argument("-a", "--max-age", type=int, help="max age in seconds before a report will be ignored")
+    parser.add_argument("-a", "--max-age", type=int, default=8*3600, help="max. age in seconds before a report will be ignored. Default: 28800 (8 hours)")
     parser.add_argument("-w", "--warning", type=int, default=70, help="warn if at least WARNING %% of the gatemons report a service as down. Default: 70%%")
     parser.add_argument("-c", "--critical", type=int, default=90, help="critical error if at least CRITICAL %% of the gatemons report a service as down. Default: 90%%")
     parser.add_argument("-i", "--ignore", help="RegExp pattern for service names that shall be ignored. Can be repeated.", action="append", default=[])
     parser.add_argument("-v", "--verbose", help="Enable verbose output.", action="store_true")
     args = parser.parse_args()
+
+    nowTime = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.tzoffset('UTC', 0))
+    cutoffTime = nowTime - datetime.timedelta(seconds=args.max_age)
 
     requestedServers = {}
     for serverString in args.server:
@@ -55,6 +59,10 @@ if __name__ == "__main__":
     knownHostNames = set()
 
     for monitor in mergedJson:
+        lastUpdated = dateutil.parser.parse(monitor["lastupdated"])
+        if lastUpdated < cutoffTime:
+            continue
+
         for server in monitor["vpn-servers"]:
             knownHostNames.add(server["name"])
             if requestedServers and not(server["name"] in requestedServers):
@@ -73,9 +81,13 @@ if __name__ == "__main__":
                     else:
                         services[fullName]["bad"]+=1
 
-    for requestedServerName in requestedServers.keys():
-        if requestedServerName not in knownHostNames:
-            raise Exception("no data available for server \"%s\"" % requestedServerName)
+    if requestedServers:
+        for requestedServerName in requestedServers.keys():
+            if requestedServerName not in knownHostNames:
+                raise Exception("no data available for server \"%s\"" % requestedServerName)
+    else:
+        if not(knownHostNames):
+            raise Exception("no data available at all")
 
     LEVEL_OK = 0
     LEVEL_WARNING = 1
