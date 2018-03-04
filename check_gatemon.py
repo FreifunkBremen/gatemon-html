@@ -108,10 +108,10 @@ if __name__ == "__main__":
         resultText += "CRITICAL"
     resultText += " - %d criticals, %d warnings, %d services checked" % (resultTotals[LEVEL_CRITICAL], resultTotals[LEVEL_WARNING], len(reportedServices))
 
-    resultText += " | " + (" ".join([ perfDataLine for (perfDataLine, readableLine) in reportedServices ])) + "\n"
-
     for (perfDataLine, readableLine) in reportedServices:
-        resultText += "%s\n" % readableLine
+        resultText += "\n%s" % readableLine
+
+    resultText += "|" + (" ".join([ perfDataLine for (perfDataLine, readableLine) in reportedServices ])) + "\n"
 
     print resultText
     sys.exit(cumulatedLevel)
