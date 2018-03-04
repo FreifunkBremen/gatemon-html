@@ -25,13 +25,21 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--url", required=True, help="URL of gatemon page")
-    parser.add_argument("-s", "--server", help="server whose status shall be checked", action="append", default=[])
+    parser.add_argument("-s", "--server", help="server whose status shall be checked. Optionally, append \"=<label>\" to set server label.", action="append", default=[])
     #parser.add_argument("-a", "--max-age", type=int, help="max age in seconds before a report will be ignored")
     parser.add_argument("-w", "--warning", type=int, default=70, help="warn if at least WARNING %% of the gatemons report a service as down. Default: 70%%")
     parser.add_argument("-c", "--critical", type=int, default=90, help="critical error if at least CRITICAL %% of the gatemons report a service as down. Default: 90%%")
     parser.add_argument("-i", "--ignore", help="RegExp pattern for service names that shall be ignored. Can be repeated.", action="append", default=[])
     parser.add_argument("-v", "--verbose", help="Enable verbose output.", action="store_true")
     args = parser.parse_args()
+
+    requestedServers = {}
+    for serverString in args.server:
+        if "=" in serverString:
+            (hostName, serverLabel) = serverString.split("=", 1)
+            requestedServers[hostName] = serverLabel
+        else:
+            requestedServers[serverString] = serverString
 
     r = requests.get("%s/data/merged.json" % args.url)
     mergedJson = r.json()
@@ -42,15 +50,16 @@ if __name__ == "__main__":
     #print mergedJson
 
     services = {}
-    knownServerNames = set()
+    knownHostNames = set()
     for monitor in mergedJson:
         for server in monitor["vpn-servers"]:
-            knownServerNames.add(server["name"])
-            if args.server == [] or server["name"] in args.server:
+            knownHostNames.add(server["name"])
+            if not(requestedServers) or server["name"] in requestedServers:
+                serverLabel = requestedServers.get(server["name"], server["name"])
                 for serviceName in server:
                     if serviceName in ("ntp", "addresses", "dns", "uplink"):
                         for addrType in server[serviceName][0]:
-                            fullName = "%s_%s_%s" % (server["name"], serviceName, addrType)
+                            fullName = "%s_%s_%s" % (serverLabel, serviceName, addrType)
                             success = server[serviceName][0][addrType]
                             if not(fullName in services):
                                 services[fullName] = {"total": 0, "good": 0, "bad": 0}
@@ -60,10 +69,9 @@ if __name__ == "__main__":
                             else:
                                 services[fullName]["bad"]+=1
 
-    if args.server:
-        for requestedServer in args.server:
-            if requestedServer not in knownServerNames:
-                raise Exception("no data available for server \"%s\"" % requestedServer)
+    for requestedServerName in requestedServers.keys():
+        if requestedServerName not in knownHostNames:
+            raise Exception("no data available for server \"%s\"" % requestedServerName)
 
     LEVEL_OK = 0
     LEVEL_WARNING = 1
