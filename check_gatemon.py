@@ -9,6 +9,7 @@ import re
 from collections import defaultdict
 import argparse
 import requests
+import json
 import traceback
 
 
@@ -42,13 +43,11 @@ if __name__ == "__main__":
         else:
             requestedServers[serverString] = serverString
 
-    r = requests.get("%s/data/merged.json" % args.url)
-    mergedJson = r.json()
-
-#    import json
-#    import os
-#    mergedJson = json.load(open(os.path.dirname(os.path.realpath(__file__)) + "/merged.json"))
-    #print mergedJson
+    if args.url.startswith("file:///"):
+        mergedJson = json.load(open(args.url[len("file://"):]))
+    else:
+        r = requests.get("%s/data/merged.json" % args.url)
+        mergedJson = r.json()
 
     # stores for each service the number of total/good/bad gatemon reports:
     services = defaultdict(lambda: {"total": 0, "good": 0, "bad": 0})
