@@ -125,13 +125,15 @@ if __name__ == "__main__":
         percentBad = (float(result["bad"]) / result["total"]) * 100.0
         perfDataLine = "%s=%d%%;%d;%d" % (serviceName, percentBad, args.warning, args.critical)
         readableLine = "%s: %d bad reports (%d%%)" % (serviceName, result["bad"], percentBad)
-        reportedServices.append( (perfDataLine, readableLine) )
         if percentBad >= args.critical:
             addResult(LEVEL_CRITICAL)
+            readableLine += " (CRITICAL)"
         elif percentBad >= args.warning:
             addResult(LEVEL_WARNING)
+            readableLine += " (WARNING)"
         else:
             addResult(LEVEL_OK)
+        reportedServices.append( (perfDataLine, readableLine) )
 
     resultText = "GATEMONS "
     if cumulatedLevel == LEVEL_OK:

@@ -47,9 +47,9 @@ assert [ "$res" == 'GATEMONS CRITICAL - 2 criticals, 0 warnings, 6 services chec
 vpn01.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
 vpn02.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
 vpn03.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
-vpn04.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%)
+vpn04.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%) (CRITICAL)
 vpn05.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
-vpn06.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%)|vpn01.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn02.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn03.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn04.bremen.freifunk.net_dns_ipv4=100%;50;80 vpn05.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn06.bremen.freifunk.net_dns_ipv4=100%;50;80' ]
+vpn06.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%) (CRITICAL)|vpn01.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn02.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn03.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn04.bremen.freifunk.net_dns_ipv4=100%;50;80 vpn05.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn06.bremen.freifunk.net_dns_ipv4=100%;50;80' ]
 
 
 # test with different -w and -c parameters
@@ -68,8 +68,28 @@ vpn1_dns_ipv4: 0 bad reports (0%)
 vpn1_dns_ipv6: 0 bad reports (0%)
 vpn1_ntp_ipv4: 0 bad reports (0%)
 vpn1_ntp_ipv6: 0 bad reports (0%)
-vpn1_uplink_ipv4: 1 bad reports (25%)
-vpn1_uplink_ipv6: 1 bad reports (25%)|vpn02.bremen.freifunk.net_addresses_ipv4=0%;24;25 vpn02.bremen.freifunk.net_dns_ipv4=0%;24;25 vpn02.bremen.freifunk.net_dns_ipv6=0%;24;25 vpn02.bremen.freifunk.net_ntp_ipv4=0%;24;25 vpn02.bremen.freifunk.net_ntp_ipv6=0%;24;25 vpn02.bremen.freifunk.net_uplink_ipv4=0%;24;25 vpn02.bremen.freifunk.net_uplink_ipv6=0%;24;25 vpn1_addresses_ipv4=0%;24;25 vpn1_dns_ipv4=0%;24;25 vpn1_dns_ipv6=0%;24;25 vpn1_ntp_ipv4=0%;24;25 vpn1_ntp_ipv6=0%;24;25 vpn1_uplink_ipv4=25%;24;25 vpn1_uplink_ipv6=25%;24;25' ]
+vpn1_uplink_ipv4: 1 bad reports (25%) (CRITICAL)
+vpn1_uplink_ipv6: 1 bad reports (25%) (CRITICAL)|vpn02.bremen.freifunk.net_addresses_ipv4=0%;24;25 vpn02.bremen.freifunk.net_dns_ipv4=0%;24;25 vpn02.bremen.freifunk.net_dns_ipv6=0%;24;25 vpn02.bremen.freifunk.net_ntp_ipv4=0%;24;25 vpn02.bremen.freifunk.net_ntp_ipv6=0%;24;25 vpn02.bremen.freifunk.net_uplink_ipv4=0%;24;25 vpn02.bremen.freifunk.net_uplink_ipv6=0%;24;25 vpn1_addresses_ipv4=0%;24;25 vpn1_dns_ipv4=0%;24;25 vpn1_dns_ipv6=0%;24;25 vpn1_ntp_ipv4=0%;24;25 vpn1_ntp_ipv6=0%;24;25 vpn1_uplink_ipv4=25%;24;25 vpn1_uplink_ipv6=25%;24;25' ]
+
+
+# test with different -w and -c parameters
+res=$(faketime '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net=vpn1 -s vpn02.bremen.freifunk.net -i '_addresses_ipv6$' -w 25 -c 26 2>/dev/null)
+assert [ "$?" -eq 1 ]
+assert [ "$res" == 'GATEMONS WARNING - 0 criticals, 2 warnings, 14 services checked
+vpn02.bremen.freifunk.net_addresses_ipv4: 0 bad reports (0%)
+vpn02.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
+vpn02.bremen.freifunk.net_dns_ipv6: 0 bad reports (0%)
+vpn02.bremen.freifunk.net_ntp_ipv4: 0 bad reports (0%)
+vpn02.bremen.freifunk.net_ntp_ipv6: 0 bad reports (0%)
+vpn02.bremen.freifunk.net_uplink_ipv4: 0 bad reports (0%)
+vpn02.bremen.freifunk.net_uplink_ipv6: 0 bad reports (0%)
+vpn1_addresses_ipv4: 0 bad reports (0%)
+vpn1_dns_ipv4: 0 bad reports (0%)
+vpn1_dns_ipv6: 0 bad reports (0%)
+vpn1_ntp_ipv4: 0 bad reports (0%)
+vpn1_ntp_ipv6: 0 bad reports (0%)
+vpn1_uplink_ipv4: 1 bad reports (25%) (WARNING)
+vpn1_uplink_ipv6: 1 bad reports (25%) (WARNING)|vpn02.bremen.freifunk.net_addresses_ipv4=0%;25;26 vpn02.bremen.freifunk.net_dns_ipv4=0%;25;26 vpn02.bremen.freifunk.net_dns_ipv6=0%;25;26 vpn02.bremen.freifunk.net_ntp_ipv4=0%;25;26 vpn02.bremen.freifunk.net_ntp_ipv6=0%;25;26 vpn02.bremen.freifunk.net_uplink_ipv4=0%;25;26 vpn02.bremen.freifunk.net_uplink_ipv6=0%;25;26 vpn1_addresses_ipv4=0%;25;26 vpn1_dns_ipv4=0%;25;26 vpn1_dns_ipv6=0%;25;26 vpn1_ntp_ipv4=0%;25;26 vpn1_ntp_ipv6=0%;25;26 vpn1_uplink_ipv4=25%;25;26 vpn1_uplink_ipv6=25%;25;26' ]
 
 
 # test --max-age: only one gatemon report is less than 3 minutes old
@@ -77,7 +97,7 @@ res=$(faketime '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.j
 assert [ "$?" -eq 2 ]
 assert [ "$res" == 'GATEMONS CRITICAL - 1 criticals, 0 warnings, 8 services checked
 vpn01.bremen.freifunk.net_addresses_ipv4: 0 bad reports (0%)
-vpn01.bremen.freifunk.net_addresses_ipv6: 1 bad reports (100%)
+vpn01.bremen.freifunk.net_addresses_ipv6: 1 bad reports (100%) (CRITICAL)
 vpn01.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_dns_ipv6: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_ntp_ipv4: 0 bad reports (0%)
