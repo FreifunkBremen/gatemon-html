@@ -15,10 +15,14 @@ import json
 import traceback
 
 
-verbose = True
+verboseLoggingEnabled = False
+def logVerbose(msg):
+    if verboseLoggingEnabled:
+        sys.stderr.write(msg + "\n")
+
 def handleException(exc_type, exc_value, exc_traceback):
     """Handler for any uncaught exception."""
-    if verbose:
+    if verboseLoggingEnabled:
         traceback.print_tb(exc_traceback)
     print "UNKNOWN (Exception %s: %s)" % (exc_type, exc_value)
     sys.exit(3)
@@ -33,8 +37,10 @@ if __name__ == "__main__":
     parser.add_argument("-w", "--warning", type=int, default=50, help="warn if at least WARNING %% of the gatemons report a service as down. Default: 50%%")
     parser.add_argument("-c", "--critical", type=int, default=80, help="critical error if at least CRITICAL %% of the gatemons report a service as down. Default: 80%%")
     parser.add_argument("-i", "--ignore", help="RegExp pattern for service names that shall be ignored. Can be repeated.", action="append", default=[])
-    parser.add_argument("-v", "--verbose", help="Enable verbose output.", action="store_true")
+    parser.add_argument("-v", "--verbose", help="Print verbose output to stderr.", action="store_true")
     args = parser.parse_args()
+
+    verboseLoggingEnabled = args.verbose
 
     nowTime = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.tzoffset('UTC', 0))
     cutoffTime = nowTime - datetime.timedelta(seconds=args.max_age)
@@ -61,11 +67,14 @@ if __name__ == "__main__":
     for monitor in mergedJson:
         lastUpdated = dateutil.parser.parse(monitor["lastupdated"])
         if lastUpdated < cutoffTime:
+            logVerbose("ignoring gatemon \"%s\" because lastupdated time (%s) is before cutoff time (%s)" % (
+                monitor["name"], lastUpdated, cutoffTime))
             continue
 
         for server in monitor["vpn-servers"]:
             knownHostNames.add(server["name"])
             if requestedServers and not(server["name"] in requestedServers):
+                logVerbose("ignoring server \"%s\"" % server["name"])
                 continue
             serverLabel = requestedServers.get(server["name"], server["name"])
 
@@ -110,6 +119,7 @@ if __name__ == "__main__":
 
     for serviceName in sorted(services.keys()):
         if isIgnored(serviceName):
+            logVerbose("ignoring service \"%s\"" % serviceName)
             continue
         result = services[serviceName]
         percentBad = (float(result["bad"]) / result["total"]) * 100.0
