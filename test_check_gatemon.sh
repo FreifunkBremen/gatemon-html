@@ -31,7 +31,7 @@ vpn1_dns_ipv6: 0 bad reports (0%)
 vpn1_ntp_ipv4: 0 bad reports (0%)
 vpn1_ntp_ipv6: 0 bad reports (0%)
 vpn1_uplink_ipv4: 1 bad reports (25%)
-vpn1_uplink_ipv6: 1 bad reports (25%)|vpn1_addresses_ipv4=0%;70;90 vpn1_dns_ipv4=0%;70;90 vpn1_dns_ipv6=0%;70;90 vpn1_ntp_ipv4=0%;70;90 vpn1_ntp_ipv6=0%;70;90 vpn1_uplink_ipv4=25%;70;90 vpn1_uplink_ipv6=25%;70;90' ]
+vpn1_uplink_ipv6: 1 bad reports (25%)|vpn1_addresses_ipv4=0%;50;80 vpn1_dns_ipv4=0%;50;80 vpn1_dns_ipv6=0%;50;80 vpn1_ntp_ipv4=0%;50;80 vpn1_ntp_ipv6=0%;50;80 vpn1_uplink_ipv4=25%;50;80 vpn1_uplink_ipv6=25%;50;80' ]
 
 
 # test with nonexisting hostname
@@ -49,7 +49,7 @@ vpn02.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
 vpn03.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
 vpn04.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%)
 vpn05.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
-vpn06.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%)|vpn01.bremen.freifunk.net_dns_ipv4=0%;70;90 vpn02.bremen.freifunk.net_dns_ipv4=0%;70;90 vpn03.bremen.freifunk.net_dns_ipv4=0%;70;90 vpn04.bremen.freifunk.net_dns_ipv4=100%;70;90 vpn05.bremen.freifunk.net_dns_ipv4=0%;70;90 vpn06.bremen.freifunk.net_dns_ipv4=100%;70;90' ]
+vpn06.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%)|vpn01.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn02.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn03.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn04.bremen.freifunk.net_dns_ipv4=100%;50;80 vpn05.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn06.bremen.freifunk.net_dns_ipv4=100%;50;80' ]
 
 
 # test with different -w and -c parameters
@@ -83,4 +83,4 @@ vpn01.bremen.freifunk.net_dns_ipv6: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_ntp_ipv4: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_ntp_ipv6: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_uplink_ipv4: 0 bad reports (0%)
-vpn01.bremen.freifunk.net_uplink_ipv6: 0 bad reports (0%)|vpn01.bremen.freifunk.net_addresses_ipv4=0%;70;90 vpn01.bremen.freifunk.net_addresses_ipv6=100%;70;90 vpn01.bremen.freifunk.net_dns_ipv4=0%;70;90 vpn01.bremen.freifunk.net_dns_ipv6=0%;70;90 vpn01.bremen.freifunk.net_ntp_ipv4=0%;70;90 vpn01.bremen.freifunk.net_ntp_ipv6=0%;70;90 vpn01.bremen.freifunk.net_uplink_ipv4=0%;70;90 vpn01.bremen.freifunk.net_uplink_ipv6=0%;70;90' ]
+vpn01.bremen.freifunk.net_uplink_ipv6: 0 bad reports (0%)|vpn01.bremen.freifunk.net_addresses_ipv4=0%;50;80 vpn01.bremen.freifunk.net_addresses_ipv6=100%;50;80 vpn01.bremen.freifunk.net_dns_ipv4=0%;50;80 vpn01.bremen.freifunk.net_dns_ipv6=0%;50;80 vpn01.bremen.freifunk.net_ntp_ipv4=0%;50;80 vpn01.bremen.freifunk.net_ntp_ipv6=0%;50;80 vpn01.bremen.freifunk.net_uplink_ipv4=0%;50;80 vpn01.bremen.freifunk.net_uplink_ipv6=0%;50;80' ]
