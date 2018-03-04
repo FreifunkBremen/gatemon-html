@@ -6,6 +6,7 @@
 
 import sys
 import re
+from collections import defaultdict
 import argparse
 import requests
 import traceback
@@ -49,25 +50,29 @@ if __name__ == "__main__":
 #    mergedJson = json.load(open(os.path.dirname(os.path.realpath(__file__)) + "/merged.json"))
     #print mergedJson
 
-    services = {}
+    # stores for each service the number of total/good/bad gatemon reports:
+    services = defaultdict(lambda: {"total": 0, "good": 0, "bad": 0})
+    # stores all server host names that were encountered in reports:
     knownHostNames = set()
+
     for monitor in mergedJson:
         for server in monitor["vpn-servers"]:
             knownHostNames.add(server["name"])
-            if not(requestedServers) or server["name"] in requestedServers:
-                serverLabel = requestedServers.get(server["name"], server["name"])
-                for serviceName in server:
-                    if serviceName in ("ntp", "addresses", "dns", "uplink"):
-                        for addrType in server[serviceName][0]:
-                            fullName = "%s_%s_%s" % (serverLabel, serviceName, addrType)
-                            success = server[serviceName][0][addrType]
-                            if not(fullName in services):
-                                services[fullName] = {"total": 0, "good": 0, "bad": 0}
-                            services[fullName]["total"]+=1
-                            if success:
-                                services[fullName]["good"]+=1
-                            else:
-                                services[fullName]["bad"]+=1
+            if requestedServers and not(server["name"] in requestedServers):
+                continue
+            serverLabel = requestedServers.get(server["name"], server["name"])
+
+            for serviceName in server:
+                if serviceName not in ("ntp", "addresses", "dns", "uplink"):
+                    continue
+                for addrType in server[serviceName][0]:
+                    fullName = "%s_%s_%s" % (serverLabel, serviceName, addrType)
+                    success = server[serviceName][0][addrType]
+                    services[fullName]["total"]+=1
+                    if success:
+                        services[fullName]["good"]+=1
+                    else:
+                        services[fullName]["bad"]+=1
 
     for requestedServerName in requestedServers.keys():
         if requestedServerName not in knownHostNames:
