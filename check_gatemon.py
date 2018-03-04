@@ -89,7 +89,7 @@ if __name__ == "__main__":
             continue
         result = services[serviceName]
         percentBad = (float(result["bad"]) / result["total"]) * 100.0
-        perfDataLine = "%s=%d;%d;%d" % (serviceName, percentBad, args.warning, args.critical )
+        perfDataLine = "%s=%d%%;%d;%d" % (serviceName, percentBad, args.warning, args.critical)
         readableLine = "%s: %d bad reports (%d%%)" % (serviceName, result["bad"], percentBad)
         reportedServices.append( (perfDataLine, readableLine) )
         if percentBad >= args.critical:
