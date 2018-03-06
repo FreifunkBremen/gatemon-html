@@ -69,7 +69,7 @@ if __name__ == "__main__":
     for monitor in mergedJson:
         lastUpdated = dateutil.parser.parse(monitor["lastupdated"])
         age = nowTime - lastUpdated
-        monitorPerfLines.append("gatemon_%s=%ds;;%d" % (monitor["name"], age.total_seconds(), args.max_age))
+        monitorPerfLines.append("'gatemon_%s'=%ds;;%d" % (monitor["name"], age.total_seconds(), args.max_age))
         if lastUpdated < cutoffTime:
             logVerbose("ignoring gatemon \"%s\" because lastupdated time (%s) is before cutoff time (%s)" % (
                 monitor["name"], lastUpdated, cutoffTime))
@@ -127,7 +127,7 @@ if __name__ == "__main__":
             continue
         result = services[serviceName]
         percentBad = (float(result["bad"]) / result["total"]) * 100.0
-        perfDataLine = "%s=%d%%;%d;%d" % (serviceName, percentBad, args.warning, args.critical)
+        perfDataLine = "'%s'=%d%%;%d;%d" % (serviceName, percentBad, args.warning, args.critical)
         readableLine = "%s: %d bad reports (%d%%)" % (serviceName, result["bad"], percentBad)
         if percentBad >= args.critical:
             addResult(LEVEL_CRITICAL)
