@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Some automated tests for check_gatemon.py
+# Some automated tests for check_gatemons.py
 #
 # Requires "faketime" tool to simulate a defined point in time.
 #
@@ -22,7 +22,7 @@ assert ()
 
 
 # basic test
-res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net=vpn1 -i '_addresses_ipv6$')
+res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemons.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net=vpn1 -i '_addresses_ipv6$')
 assert [ "$?" -eq 0 ]
 assert [ "$res" == 'GATEMONS OK - 0 criticals, 0 warnings, 7 services checked
 vpn1_addresses_ipv4: 0 bad reports (0%)
@@ -35,13 +35,13 @@ vpn1_uplink_ipv6: 1 bad reports (25%)|vpn1_addresses_ipv4=0%;50;80 vpn1_dns_ipv4
 
 
 # test with nonexisting hostname
-res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.json -s nonexisting-hostname 2>/dev/null)
+res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemons.py -u file://`pwd`/merged.json -s nonexisting-hostname 2>/dev/null)
 assert [ "$?" -eq 3 ]
 assert [ "$res" == "UNKNOWN (Exception <type 'exceptions.Exception'>: no data available for server \"nonexisting-hostname\")" ]
 
 
 # test without any -s parameter
-res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.json -i '_addresses_' -i '_ntp_' -i '_uplink' -i '_ipv6$' 2>/dev/null)
+res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemons.py -u file://`pwd`/merged.json -i '_addresses_' -i '_ntp_' -i '_uplink' -i '_ipv6$' 2>/dev/null)
 assert [ "$?" -eq 2 ]
 assert [ "$res" == 'GATEMONS CRITICAL - 2 criticals, 0 warnings, 6 services checked
 vpn01.bremen.freifunk.net_dns_ipv4: 0 bad reports (0%)
@@ -53,7 +53,7 @@ vpn06.bremen.freifunk.net_dns_ipv4: 4 bad reports (100%) (CRITICAL)|vpn01.bremen
 
 
 # test with different -w and -c parameters
-res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net=vpn1 -s vpn02.bremen.freifunk.net -i '_addresses_ipv6$' -w 24 -c 25 2>/dev/null)
+res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemons.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net=vpn1 -s vpn02.bremen.freifunk.net -i '_addresses_ipv6$' -w 24 -c 25 2>/dev/null)
 assert [ "$?" -eq 2 ]
 assert [ "$res" == 'GATEMONS CRITICAL - 2 criticals, 0 warnings, 14 services checked
 vpn02.bremen.freifunk.net_addresses_ipv4: 0 bad reports (0%)
@@ -73,7 +73,7 @@ vpn1_uplink_ipv6: 1 bad reports (25%) (CRITICAL)|vpn02.bremen.freifunk.net_addre
 
 
 # test with different -w and -c parameters
-res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net=vpn1 -s vpn02.bremen.freifunk.net -i '_addresses_ipv6$' -w 25 -c 26 2>/dev/null)
+res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemons.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net=vpn1 -s vpn02.bremen.freifunk.net -i '_addresses_ipv6$' -w 25 -c 26 2>/dev/null)
 assert [ "$?" -eq 1 ]
 assert [ "$res" == 'GATEMONS WARNING - 0 criticals, 2 warnings, 14 services checked
 vpn02.bremen.freifunk.net_addresses_ipv4: 0 bad reports (0%)
@@ -93,7 +93,7 @@ vpn1_uplink_ipv6: 1 bad reports (25%) (WARNING)|vpn02.bremen.freifunk.net_addres
 
 
 # test --max-age: only one gatemon report is less than 3 minutes old
-res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemon.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net --max-age 180 2>/dev/null)
+res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemons.py -u file://`pwd`/merged.json -s vpn01.bremen.freifunk.net --max-age 180 2>/dev/null)
 assert [ "$?" -eq 2 ]
 assert [ "$res" == 'GATEMONS CRITICAL - 1 criticals, 0 warnings, 8 services checked
 vpn01.bremen.freifunk.net_addresses_ipv4: 0 bad reports (0%)
