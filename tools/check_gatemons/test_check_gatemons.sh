@@ -7,6 +7,8 @@
 #
 
 
+numTestsFailed=0
+
 # evaluates the passed parameters as a single command, and checks that the exit code is 0
 assert ()
 {
@@ -17,6 +19,7 @@ assert ()
         echo "GOOD: $(echo "$expression" | tr '\n' ' ' | cut -c 1-80)"
     else
         echo "FAIL: $expression"
+        numTestsFailed=$((numTestsFailed+1))
     fi
 }
 
@@ -104,3 +107,11 @@ vpn01.bremen.freifunk.net_ntp_ipv4: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_ntp_ipv6: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_uplink_ipv4: 0 bad reports (0%)
 vpn01.bremen.freifunk.net_uplink_ipv6: 0 bad reports (0%)|'vpn01.bremen.freifunk.net_addresses_ipv4'=0%;50;80 'vpn01.bremen.freifunk.net_addresses_ipv6'=100%;50;80 'vpn01.bremen.freifunk.net_dns_ipv4'=0%;50;80 'vpn01.bremen.freifunk.net_dns_ipv6'=0%;50;80 'vpn01.bremen.freifunk.net_ntp_ipv4'=0%;50;80 'vpn01.bremen.freifunk.net_ntp_ipv6'=0%;50;80 'vpn01.bremen.freifunk.net_uplink_ipv4'=0%;50;80 'vpn01.bremen.freifunk.net_uplink_ipv6'=0%;50;80 'gatemon_gatemon1'=107s;;180 'gatemon_gatemon2'=403s;;180 'gatemon_gatemon3'=1540s;;180 'gatemon_gatemon4'=399s;;180""" ]
+
+
+echo "$numTestsFailed tests failed"
+if [ "$numTestsFailed" -eq 0 ]; then
+    exit 0
+else
+    exit 1
+fi
