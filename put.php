@@ -126,4 +126,3 @@ file_put_contents($data_dir . '/merged.json', json_encode($json_merged));
 $overall_state = $summarizer->getSummary();
 file_put_contents($data_dir . '/overall.json', json_encode($overall_state));
 
-?>

@@ -76,5 +76,3 @@ function uploadToInfluxDB($json, $influxConfig) {
   }
   curl_close ($ch);
 }
-
-?>
