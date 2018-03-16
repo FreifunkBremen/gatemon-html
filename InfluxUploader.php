@@ -47,15 +47,18 @@ function uploadToInfluxDB($json, $influxConfig) {
 
   foreach ($json['vpn-servers'] as $serverState) {
     $serverName = escapeInfluxTagValue($serverState['name']);
+    $uploadText .= "gatemon,server=$serverName,gatemon=$gatemonId,gatemon_name=$gatemonName,gatemon_provider=$gatemonProvider ";
     foreach (array('ntp', 'addresses', 'dns', 'uplink') as $topic) {
       foreach (array('ipv4', 'ipv6') as $addrType) {
         $value = '0.0';
         if ($serverState[$topic][0][$addrType]) {
           $value = '1.0';
         }
-        $uploadText .= "gatemon,addrtype=$addrType,server=$serverName,gatemon=$gatemonId,gatemon_name=$gatemonName,gatemon_provider=$gatemonProvider $topic=$value\n";
+        $uploadText .= "${topic}.$addrType=$value,";
       }
     }
+    $uploadText = rtrim($uploadText, ",");
+    $uploadText .= "\n";
   }
 
   $ch = curl_init();
