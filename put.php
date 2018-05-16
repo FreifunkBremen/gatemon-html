@@ -41,6 +41,9 @@ $data_dir = __DIR__ . '/data';
 // will be stored
 $token_dir = __DIR__ . '/token';
 
+// Optional configuration file
+$config_file = __DIR__ . "/config.ini";
+
 // Read JSON
 $json = file_get_contents('php://input');
 
@@ -51,7 +54,15 @@ if (!isset($_GET['token']) || !file_exists($token_dir . '/' . preg_replace('/[^\
   exit(2);
 }
 
-$config = parse_ini_file(__DIR__ . "/config.ini", TRUE);
+// Load config file (with fallback to default values)
+$config = array(
+    "influxdb" => array(
+        "enabled" => false
+    )
+);
+if (file_exists($config_file)) {
+  $config = parse_ini_file($config_file, TRUE);
+}
 
 // Decode JSON to array
 $json_decoded = json_decode($json, true);
