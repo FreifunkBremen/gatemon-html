@@ -30,8 +30,9 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED O
 POSSIBILITY OF SUCH DAMAGE.
 */
 
-// Include summarizer class
+// Include helper classes
 require_once __DIR__ . '/Summarizer.class.php';
+require_once __DIR__ . '/InfluxUploader.php';
 
 // Directory to store JSON files
 $data_dir = __DIR__ . '/data';
@@ -39,6 +40,9 @@ $data_dir = __DIR__ . '/data';
 // Directory where API token
 // will be stored
 $token_dir = __DIR__ . '/token';
+
+// Optional configuration file
+$config_file = __DIR__ . "/config.ini";
 
 // Read JSON
 $json = file_get_contents('php://input');
@@ -48,6 +52,16 @@ if (!isset($_GET['token']) || !file_exists($token_dir . '/' . preg_replace('/[^\
   http_response_code(403);
   error_log('API token missing!');
   exit(2);
+}
+
+// Load config file (with fallback to default values)
+$config = array(
+    "influxdb" => array(
+        "enabled" => false
+    )
+);
+if (file_exists($config_file)) {
+  $config = parse_ini_file($config_file, TRUE);
 }
 
 // Decode JSON to array
@@ -97,6 +111,9 @@ $json_decoded['lastupdated'] = time();
 // Store JSON
 file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($json_decoded['uuid'], 0, 30)) . '.json', $json);
 
+// Upload to statistics database
+uploadToInfluxDB($json_decoded, $config['influxdb']);
+
 $summarizer = new Summarizer();
 
 // Clean up old files and sum up results
@@ -120,4 +137,3 @@ file_put_contents($data_dir . '/merged.json', json_encode($json_merged));
 $overall_state = $summarizer->getSummary();
 file_put_contents($data_dir . '/overall.json', json_encode($overall_state));
 
-?>
