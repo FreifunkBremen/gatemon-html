@@ -41,6 +41,9 @@ $data_dir = __DIR__ . '/data';
 // will be stored
 $token_dir = __DIR__ . '/token';
 
+// Initialize array for decoded JSON
+$json_decoded = array();
+
 // Optional configuration file
 $config_file = __DIR__ . "/config.ini";
 
@@ -54,21 +57,12 @@ if (!isset($_GET['token']) || !file_exists($token_dir . '/' . preg_replace('/[^\
   exit(2);
 }
 
-// Load config file (with fallback to default values)
-$config = array(
-    "influxdb" => array(
-        "enabled" => false
-    )
-);
-if (file_exists($config_file)) {
+// Set default values for config
+$config = array('influxdb' => array('enabled' => false));
+
+// Load config file if exists
+if (file_exists($config_file))
   $config = parse_ini_file($config_file, TRUE);
-}
-
-// Decode JSON to array
-$json_decoded = json_decode($json, true);
-
-// Merged JSON array
-$json_merged = array();
 
 // Store only if conditions given
 if (empty($json)) {
@@ -77,12 +71,23 @@ if (empty($json)) {
   exit(2);
 }
 
-// Check for invalid JSON
-if (json_last_error() !== JSON_ERROR_NONE) {
-  http_response_code(400);
-  error_log('Invalid JSON');
-  exit(2);
-}
+// Decode yaml or json to array
+$yaml_decoded = yaml_parse($json);
+
+if (!isset($yaml_decoded[0]['uuid'])) {
+  $json_decoded = json_decode($json, true);
+
+  // Check for invalid JSON
+  if (json_last_error() !== JSON_ERROR_NONE) {
+    http_response_code(400);
+    error_log('Invalid JSON');
+    exit(2);
+  }
+} else
+  $json_decoded = $yaml_decoded[0];
+
+// Merged JSON array
+$json_merged = array();
 
 // Check if uuid is set in JSON
 if (!isset($json_decoded['uuid'])) {
@@ -106,10 +111,10 @@ if (abs(strtotime($json_decoded['lastupdated']) - time()) > 90) {
 }
 
 // Overwrite lastupdated with servers time to make timestamps comparable
-$json_decoded['lastupdated'] = time();
+$json_decoded['lastupdated'] = date(DateTime::ISO8601);
 
 // Store JSON
-file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($json_decoded['uuid'], 0, 30)) . '.json', $json);
+file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($json_decoded['uuid'], 0, 30)) . '.json', json_encode($json_decoded));
 
 // Upload to statistics database
 uploadToInfluxDB($json_decoded, $config['influxdb']);
@@ -136,4 +141,3 @@ file_put_contents($data_dir . '/merged.json', json_encode($json_merged));
 
 $overall_state = $summarizer->getSummary();
 file_put_contents($data_dir . '/overall.json', json_encode($overall_state));
-
