@@ -95,22 +95,22 @@ $json_merged = array();
 // Check if uuid is set in JSON
 if (!isset($json_decoded['uuid'])) {
   http_response_code(400);
-  error_log('Missing UUID in JSON');
+  error_log('Missing UUID in JSON (Token: ' . $_GET['token'] . ')');
   exit(2);
 }
 
 // Check for valid UUID
 if (!ctype_xdigit($json_decoded['uuid'])) {
   http_response_code(400);
-  error_log('UUID is not valid');
+  error_log('UUID (' . $json_decoded['uuid'] . ') / Token (' . $_GET['token'] . ') is not valid');
   exit(2);
 }
 
 // Check for time deviation larger 1 minute
 if (abs(strtotime($json_decoded['lastupdated']) - time()) > 90) {
-    http_response_code(400);
-    error_log('Node date deviation too large');
-    exit(2);
+  http_response_code(400);
+  error_log('Node date deviation too large (UUID: ' . $json_decoded['uuid'] . ' / Token: ' . $_GET['token'] . ')');
+  exit(2);
 }
 
 // Overwrite lastupdated with servers time to make timestamps comparable
