@@ -33,6 +33,7 @@ POSSIBILITY OF SUCH DAMAGE.
 // Include helper classes
 require_once __DIR__ . '/Summarizer.class.php';
 require_once __DIR__ . '/InfluxUploader.php';
+require_once __DIR__ . '/ksort_recursive.php';
 
 // Directory to store JSON files
 $data_dir = __DIR__ . '/data';
@@ -85,6 +86,8 @@ if (!isset($yaml_decoded[0]['uuid'])) {
   }
 } else
   $json_decoded = $yaml_decoded[0];
+
+ksort_recursive($json_decoded);
 
 // Merged JSON array
 $json_merged = array();
