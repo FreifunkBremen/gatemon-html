@@ -113,6 +113,10 @@ if (abs(strtotime($report_decoded['lastupdated']) - time()) > 90) {
   exit(2);
 }
 
+// Set version if not transmitted from node
+if (!isset($report_decoded['version']))
+  $report_decoded['version'] = '0.1';
+
 // Overwrite lastupdated with servers time to make timestamps comparable
 $report_decoded['lastupdated'] = date(DateTime::ISO8601);
 
