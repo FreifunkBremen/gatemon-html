@@ -42,14 +42,17 @@ $data_dir = __DIR__ . '/data';
 // will be stored
 $token_dir = __DIR__ . '/token';
 
-// Initialize array for decoded JSON
-$json_decoded = array();
+// Initialize array for decoded reports
+$report_decoded = array();
+
+// Merged JSON array
+$json_merged = array();
 
 // Optional configuration file
-$config_file = __DIR__ . "/config.ini";
+$config_file = __DIR__ . '/config.ini';
 
-// Read JSON
-$json = file_get_contents('php://input');
+// Read report
+$report_in = file_get_contents('php://input');
 
 // Check for valid API key
 if (!isset($_GET['token']) || !file_exists($token_dir . '/' . preg_replace('/[^\da-z]/i', '', $_GET['token']))) {
@@ -66,17 +69,17 @@ if (file_exists($config_file))
   $config = parse_ini_file($config_file, TRUE);
 
 // Store only if conditions given
-if (empty($json)) {
+if (empty($report_in)) {
   http_response_code(400);
-  error_log('Missing JSON');
+  error_log('Missing report');
   exit(2);
 }
 
 // Decode yaml or json to array
-$yaml_decoded = yaml_parse($json);
+$yaml_decoded = yaml_parse($report_in);
 
 if (!isset($yaml_decoded[0]['uuid'])) {
-  $json_decoded = json_decode($json, true);
+  $report_decoded = json_decode($report_in, true);
 
   // Check for invalid JSON
   if (json_last_error() !== JSON_ERROR_NONE) {
@@ -85,42 +88,39 @@ if (!isset($yaml_decoded[0]['uuid'])) {
     exit(2);
   }
 } else
-  $json_decoded = $yaml_decoded[0];
+  $report_decoded = $yaml_decoded[0];
 
-ksort_recursive($json_decoded);
+ksort_recursive($report_decoded);
 
-// Merged JSON array
-$json_merged = array();
-
-// Check if uuid is set in JSON
-if (!isset($json_decoded['uuid'])) {
+// Check if uuid is set in report
+if (!isset($report_decoded['uuid'])) {
   http_response_code(400);
-  error_log('Missing UUID in JSON (Token: ' . $_GET['token'] . ')');
+  error_log('Missing UUID in report (Token: ' . $_GET['token'] . ')');
   exit(2);
 }
 
 // Check for valid UUID
-if (!ctype_xdigit($json_decoded['uuid'])) {
+if (!ctype_xdigit($report_decoded['uuid'])) {
   http_response_code(400);
-  error_log('UUID (' . $json_decoded['uuid'] . ') / Token (' . $_GET['token'] . ') is not valid');
+  error_log('UUID (' . $report_decoded['uuid'] . ') / Token (' . $_GET['token'] . ') is not valid');
   exit(2);
 }
 
 // Check for time deviation larger 1 minute
-if (abs(strtotime($json_decoded['lastupdated']) - time()) > 90) {
+if (abs(strtotime($report_decoded['lastupdated']) - time()) > 90) {
   http_response_code(400);
-  error_log('Node date deviation too large (UUID: ' . $json_decoded['uuid'] . ' / Token: ' . $_GET['token'] . ')');
+  error_log('Node date deviation too large (UUID: ' . $report_decoded['uuid'] . ' / Token: ' . $_GET['token'] . ')');
   exit(2);
 }
 
 // Overwrite lastupdated with servers time to make timestamps comparable
-$json_decoded['lastupdated'] = date(DateTime::ISO8601);
+$report_decoded['lastupdated'] = date(DateTime::ISO8601);
 
 // Store JSON
-file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($json_decoded['uuid'], 0, 30)) . '.json', json_encode($json_decoded));
+file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($report_decoded['uuid'], 0, 30)) . '.json', json_encode($report_decoded));
 
 // Upload to statistics database
-uploadToInfluxDB($json_decoded, $config['influxdb']);
+uploadToInfluxDB($report_decoded, $config['influxdb']);
 
 $summarizer = new Summarizer();
 
