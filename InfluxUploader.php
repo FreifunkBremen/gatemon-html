@@ -35,17 +35,17 @@ function escapeInfluxTagValue($str) {
 }
 
 // Uploads the parsed results from one Gatemon client to InfluxDB
-function uploadToInfluxDB($json, $influxConfig) {
+function uploadToInfluxDB($report, $influxConfig) {
   if (!$influxConfig['enabled']) {
     return;
   }
 
   $uploadText = '';
-  $gatemonId = escapeInfluxTagValue($json['uuid']);
-  $gatemonName = escapeInfluxTagValue($json['name']);
-  $gatemonProvider = escapeInfluxTagValue($json['provider']);
+  $gatemonId = escapeInfluxTagValue($report['uuid']);
+  $gatemonName = escapeInfluxTagValue($report['name']);
+  $gatemonProvider = escapeInfluxTagValue($report['provider']);
 
-  foreach ($json['vpn-servers'] as $serverState) {
+  foreach ($report['vpn-servers'] as $serverState) {
     $serverName = escapeInfluxTagValue($serverState['name']);
     $uploadText .= "gatemon,server=$serverName,gatemon=$gatemonId,gatemon_name=$gatemonName,gatemon_provider=$gatemonProvider ";
     foreach (array('ntp', 'addresses', 'dns', 'uplink') as $topic) {
