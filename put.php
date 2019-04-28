@@ -30,6 +30,19 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED O
 POSSIBILITY OF SUCH DAMAGE.
 */
 
+
+/*
+This script receives reports (in YAML or JSON format) from Gatemon clients via HTTP POST,
+and stores them in various ways:
+- as separate JSON files (one per Gatemon) in data/ directory
+- as a single merged JSON file (data/merged.json), for use by the web frontend
+- as a single status summary JSON file (data/overall.json), for use by monitoring tools
+- optionally in an InfluxDB, for use by monitoring tools
+
+Also, whenever a report is received, all outdated data files will be removed.
+*/
+
+
 // Include helper classes
 require_once __DIR__ . '/Summarizer.class.php';
 require_once __DIR__ . '/InfluxUploader.php';
