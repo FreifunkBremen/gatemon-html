@@ -36,7 +36,6 @@ This script receives reports (in YAML or JSON format) from Gatemon clients via H
 and stores them in various ways:
 - as separate JSON files (one per Gatemon) in data/ directory
 - as a single merged JSON file (data/merged.json), for use by the web frontend
-- as a single status summary JSON file (data/overall.json), for use by monitoring tools
 - optionally in an InfluxDB, for use by monitoring tools
 
 Also, whenever a report is received, all outdated data files will be removed.
@@ -44,7 +43,6 @@ Also, whenever a report is received, all outdated data files will be removed.
 
 
 // Include helper classes
-require_once __DIR__ . '/Summarizer.class.php';
 require_once __DIR__ . '/InfluxUploader.php';
 require_once __DIR__ . '/ksort_recursive.php';
 
@@ -139,11 +137,9 @@ file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($repo
 // Upload to statistics database
 uploadToInfluxDB($report_decoded, $config['influxdb']);
 
-$summarizer = new Summarizer();
-
 // Clean up old files and sum up results
 foreach(glob($data_dir . '/*') as $file) {
-  if (basename($file) == 'merged.json' || basename($file) == 'overall.json')
+  if (basename($file) == 'merged.json')
     continue;
 
   if (filemtime($file) < strtotime('-8 hours')) {
@@ -153,11 +149,6 @@ foreach(glob($data_dir . '/*') as $file) {
 
   $json = json_decode(file_get_contents($file));
   $json_merged[] = $json;
-
-  $summarizer->addMonitorResults($json);
 }
 
 file_put_contents($data_dir . '/merged.json', json_encode($json_merged));
-
-$overall_state = $summarizer->getSummary();
-file_put_contents($data_dir . '/overall.json', json_encode($overall_state));
