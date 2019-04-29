@@ -30,22 +30,55 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED O
 POSSIBILITY OF SUCH DAMAGE.
 */
 
+/*
+This module uploads Gatemon results to InfluxDB.
+*/
+
+
+/// Escapes string values so they can be sent to InfluxDB (according to the Line Protocol specification)
 function escapeInfluxTagValue($str) {
   return addcslashes($str, ",= ");
 }
 
-// Uploads the parsed results from one Gatemon client to InfluxDB
-function uploadToInfluxDB($json, $influxConfig) {
+
+/**
+ * Uploads the reported results from one Gatemon client to InfluxDB.
+ * InfluxDB is accessed using its HTTP POST API and the InfluxDB Line Protocol.
+ *
+ * @param $report The parsed results reported by a single Gatemon.
+ *   Must be an array with the following entries:
+ *   - name: string
+ *   - uuid: string
+ *   - provider: string
+ *   - vpn-servers: array, each entry consisting of:
+ *     - name: string
+ *     - addresses: array with single entry:
+ *       - entry 0 must be an array with two entries:
+ *         - ipv4: integer (0 or 1)
+ *         - ipv6: integer (0 or 1)
+ *     - dns: same format as "addresses"
+ *     - ntp: same format as "addresses"
+ *     - uplink: same format as "addresses"
+ *
+ * @param $influxConfig Configuration settings for connecting to InfluxDB.
+ *   Must be an array with the following keys:
+ *   - enabled: boolean value indicating whether data should be uploaded to InfluxDB at all
+ *   - url: URL of the InfluxDB's "write" endpoint
+ *   - username: user name to access InfluxDB
+ *   - username: password to access InfluxDB
+ *   - timeout: timeout in seconds for the HTTP POST request
+ */
+function uploadToInfluxDB($report, $influxConfig) {
   if (!$influxConfig['enabled']) {
     return;
   }
 
   $uploadText = '';
-  $gatemonId = escapeInfluxTagValue($json['uuid']);
-  $gatemonName = escapeInfluxTagValue($json['name']);
-  $gatemonProvider = escapeInfluxTagValue($json['provider']);
+  $gatemonId = escapeInfluxTagValue($report['uuid']);
+  $gatemonName = escapeInfluxTagValue($report['name']);
+  $gatemonProvider = escapeInfluxTagValue($report['provider']);
 
-  foreach ($json['vpn-servers'] as $serverState) {
+  foreach ($report['vpn-servers'] as $serverState) {
     $serverName = escapeInfluxTagValue($serverState['name']);
     $uploadText .= "gatemon,server=$serverName,gatemon=$gatemonId,gatemon_name=$gatemonName,gatemon_provider=$gatemonProvider ";
     foreach (array('ntp', 'addresses', 'dns', 'uplink') as $topic) {
