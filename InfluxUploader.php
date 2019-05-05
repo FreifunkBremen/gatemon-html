@@ -52,13 +52,15 @@ function escapeInfluxTagValue($str) {
  *   - provider: string
  *   - vpn-servers: array, each entry consisting of:
  *     - name: string
- *     - addresses: array with single entry:
- *       - entry 0 must be an array with two entries:
- *         - ipv4: integer (0 or 1)
- *         - ipv6: integer (0 or 1)
- *     - dns: same format as "addresses"
- *     - ntp: same format as "addresses"
- *     - uplink: same format as "addresses"
+ *     - status: array
+ *       - addresses: array, with two entries:
+ *         - ipv4: array, with one entry:
+ *           - up: boolean
+ *         - ipv6: array, with one entry:
+ *           - up: boolean
+ *       - dns: same format as "addresses"
+ *       - ntp: same format as "addresses"
+ *       - uplink: same format as "addresses"
  *
  * @param $influxConfig Configuration settings for connecting to InfluxDB.
  *   Must be an array with the following keys:
@@ -84,7 +86,7 @@ function uploadToInfluxDB($report, $influxConfig) {
     foreach (array('ntp', 'addresses', 'dns', 'uplink') as $topic) {
       foreach (array('ipv4', 'ipv6') as $addrType) {
         $value = '0.0';
-        if ($serverState[$topic][0][$addrType]) {
+        if ($serverState['status'][$topic][$addrType]['up']) {
           $value = '1.0';
         }
         $uploadText .= "${topic}.$addrType=$value,";
