@@ -42,6 +42,60 @@ Also, whenever a report is received, all outdated data files will be removed.
 */
 
 
+/**
+ * Checks the report received from Gatemon client (in YAML or JSON format),
+ * and returns the reported data in internal format.
+ */
+function sanitizeYamlJsonInput ($report_decoded) {
+  ksort_recursive($report_decoded);
+
+  // Check if uuid is set in report
+  if (!isset($report_decoded['uuid']))
+    throw new Exception('Missing UUID in report');
+
+  // Check for valid UUID
+  if (!ctype_xdigit($report_decoded['uuid']))
+    throw new Exception('UUID (' . $report_decoded['uuid'] . ') is not valid');
+
+  // Check for time deviation larger 1 minute
+  if (abs(strtotime($report_decoded['lastupdated']) - time()) > 90) {
+    throw new Exception('Node date deviation too large (UUID: ' . $report_decoded['uuid'] . ')');
+  }
+
+  // Create sanitized report structure (using internal format)
+  $newReport = array(
+    'version' => 0.1,
+    // Overwrite lastupdated with servers time to make timestamps comparable
+    'lastupdated' => date(DateTime::ISO8601),
+    'uuid' => $report_decoded['uuid'],
+    'name' => $report_decoded['name'],
+    'provider' => $report_decoded['provider'],
+    'vpn-servers' => array(),
+  );
+
+  // Set version if transmitted from node
+  if (isset($report_decoded['version']))
+    $newReport['version'] = $report_decoded['version'];
+
+  // Copy reported data for each server
+  foreach ($report_decoded['vpn-servers'] as $reportedServerData) {
+    $newServerData = array(
+      'name' => $reportedServerData['name'],
+      'status' => array(),
+    );
+
+    foreach (array('addresses', 'dns', 'ntp', 'uplink') as $topic) {
+      foreach (array('ipv4', 'ipv6') as $addrType) {
+        $value = boolval($reportedServerData[$topic][0][$addrType]);
+        $newServerData['status'][$topic][$addrType]['up'] = $value;
+      }
+    }
+
+    $newReport['vpn-servers'][] = $newServerData;
+  }
+  return $newReport;
+}
+
 // Include helper classes
 require_once __DIR__ . '/InfluxUploader.php';
 require_once __DIR__ . '/ksort_recursive.php';
@@ -101,41 +155,19 @@ if (!isset($yaml_decoded[0]['uuid'])) {
 } else
   $report_decoded = $yaml_decoded[0];
 
-ksort_recursive($report_decoded);
-
-// Check if uuid is set in report
-if (!isset($report_decoded['uuid'])) {
+try {
+  $internal_report = sanitizeYamlJsonInput($report_decoded);
+} catch (Exception $e) {
   http_response_code(400);
-  error_log('Missing UUID in report (Token: ' . $_GET['token'] . ')');
+  error_log('Invalid input (' . $e->getMessage() . '); token=' . $_GET['token']);
   exit(2);
 }
-
-// Check for valid UUID
-if (!ctype_xdigit($report_decoded['uuid'])) {
-  http_response_code(400);
-  error_log('UUID (' . $report_decoded['uuid'] . ') / Token (' . $_GET['token'] . ') is not valid');
-  exit(2);
-}
-
-// Check for time deviation larger 1 minute
-if (abs(strtotime($report_decoded['lastupdated']) - time()) > 90) {
-  http_response_code(400);
-  error_log('Node date deviation too large (UUID: ' . $report_decoded['uuid'] . ' / Token: ' . $_GET['token'] . ')');
-  exit(2);
-}
-
-// Set version if not transmitted from node
-if (!isset($report_decoded['version']))
-  $report_decoded['version'] = '0.1';
-
-// Overwrite lastupdated with servers time to make timestamps comparable
-$report_decoded['lastupdated'] = date(DateTime::ISO8601);
 
 // Store JSON
-file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($report_decoded['uuid'], 0, 30)) . '.json', json_encode($report_decoded));
+file_put_contents($data_dir . '/' . preg_replace('/[^\da-z]/i', '', substr($internal_report['uuid'], 0, 30)) . '.json', json_encode($internal_report));
 
 // Upload to statistics database
-uploadToInfluxDB($report_decoded, $config['influxdb']);
+uploadToInfluxDB($internal_report, $config['influxdb']);
 
 // Clean up old files and sum up results
 foreach(glob($data_dir . '/*') as $file) {
