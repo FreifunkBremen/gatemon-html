@@ -64,23 +64,19 @@ function sanitizeYamlJsonInput ($report_decoded) {
 
   // Create sanitized report structure (using internal format)
   $newReport = array(
-    'version' => 0.1,
+    'version' => $report_decoded['version'] ?? '0.1',
     // Overwrite lastupdated with servers time to make timestamps comparable
     'lastupdated' => date(DateTime::ISO8601),
     'uuid' => $report_decoded['uuid'],
-    'name' => $report_decoded['name'],
-    'provider' => $report_decoded['provider'],
+    'name' => $report_decoded['name'] ?? 'unknown',
+    'provider' => $report_decoded['provider'] ?? 'unknown',
     'vpn-servers' => array(),
   );
-
-  // Set version if transmitted from node
-  if (isset($report_decoded['version']))
-    $newReport['version'] = $report_decoded['version'];
 
   // Copy reported data for each server
   foreach ($report_decoded['vpn-servers'] as $reportedServerData) {
     $newServerData = array(
-      'name' => $reportedServerData['name'],
+      'name' => $reportedServerData['name'] ?? 'unknown',
       'status' => array(),
     );
 
