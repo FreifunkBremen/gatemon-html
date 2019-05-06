@@ -43,10 +43,28 @@ Also, whenever a report is received, all outdated data files will be removed.
 
 
 /**
- * Checks the report received from Gatemon client (in YAML or JSON format),
- * and returns the reported data in internal format.
+ * Parses the raw text received from Gatemon client (in $report_in) as YAML or JSON,
+ * checks it for invalid data,
+ * and returns the extracted data in internal format.
  */
-function sanitizeYamlJsonInput ($report_decoded) {
+function parseAndSanitizeInput ($report_text) {
+  // Store only if conditions given
+  if (empty($report_text))
+    throw new Exception('Missing report');
+
+  // Decode yaml or json to array
+  $yaml_decoded = yaml_parse($report_text);
+
+  if (!isset($yaml_decoded[0]['uuid'])) {
+    $report_decoded = json_decode($report_text, true);
+
+    // Check for invalid JSON
+    if (json_last_error() !== JSON_ERROR_NONE) {
+      throw new Exception('Invalid JSON');
+    }
+  } else
+    $report_decoded = $yaml_decoded[0];
+
   ksort_recursive($report_decoded);
 
   // Check if uuid is set in report
@@ -103,17 +121,11 @@ $data_dir = __DIR__ . '/data';
 // will be stored
 $token_dir = __DIR__ . '/token';
 
-// Initialize array for decoded reports
-$report_decoded = array();
-
 // Merged JSON array
 $json_merged = array();
 
 // Optional configuration file
 $config_file = __DIR__ . '/config.ini';
-
-// Read report
-$report_in = file_get_contents('php://input');
 
 // Check for valid API key
 if (!isset($_GET['token']) || !file_exists($token_dir . '/' . preg_replace('/[^\da-z]/i', '', $_GET['token']))) {
@@ -129,30 +141,12 @@ $config = array('influxdb' => array('enabled' => false));
 if (file_exists($config_file))
   $config = parse_ini_file($config_file, TRUE);
 
-// Store only if conditions given
-if (empty($report_in)) {
-  http_response_code(400);
-  error_log('Missing report');
-  exit(2);
-}
 
-// Decode yaml or json to array
-$yaml_decoded = yaml_parse($report_in);
-
-if (!isset($yaml_decoded[0]['uuid'])) {
-  $report_decoded = json_decode($report_in, true);
-
-  // Check for invalid JSON
-  if (json_last_error() !== JSON_ERROR_NONE) {
-    http_response_code(400);
-    error_log('Invalid JSON');
-    exit(2);
-  }
-} else
-  $report_decoded = $yaml_decoded[0];
+// Read report
+$report_in = file_get_contents('php://input');
 
 try {
-  $internal_report = sanitizeYamlJsonInput($report_decoded);
+  $internal_report = parseAndSanitizeInput($report_in);
 } catch (Exception $e) {
   http_response_code(400);
   error_log('Invalid input (' . $e->getMessage() . '); token=' . $_GET['token']);
