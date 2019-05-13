@@ -13,6 +13,9 @@ $(function() {
     dataType: 'json'
   });
 
+  $.timeago.settings.allowFuture = true;
+  $.timeago.settings.allowPast = true;
+
   // Parse response
   function parseResponse(data) {
     // Reset counter for array
@@ -24,6 +27,7 @@ $(function() {
       gatemon_counter++;
 
       $('<tr><td>' + gatemon['provider'] + '</td><td> <time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td></tr>').appendTo($('#lastupdated'));
+      $(".timeago").timeago();
 
       // Iterate over gatemon data
       gatemon['vpn-servers'].forEach(function(vpnserver_data) {
