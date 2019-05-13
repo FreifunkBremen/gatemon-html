@@ -23,6 +23,8 @@ $(function() {
       // Increment counter
       gatemon_counter++;
 
+      $('<tr><td>' + gatemon['provider'] + '</td><td> <time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td></tr>').appendTo($('#lastupdated'));
+
       // Iterate over gatemon data
       gatemon['vpn-servers'].forEach(function(vpnserver_data) {
         // Short VPN hostname
