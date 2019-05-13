@@ -30,16 +30,23 @@ $(function() {
       + '</tr>'
       + '</thead>').appendTo($('#lastupdated'));
 
+    // Gatemon reports older than 2 hours are marked as bad:
+    var oldestAllowedTimestamp = Date.now() - (2*60*60*1000);
+
     // Iterate over gatemons
     data.forEach(function(gatemon) {
       // Increment counter
       gatemon_counter++;
 
+      gatemon_class = "";
+      if (Date.parse(gatemon['lastupdated']) < oldestAllowedTimestamp)
+        gatemon_class = "outdated";
+
       $('<tr>'
         + '<td>' + gatemon['name'] + '</td>'
         + '<td>' + gatemon['provider'] + '</td>'
         + '<td>' + gatemon['version'] + '</td>'
-        + '<td><time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td>'
+        + '<td class="' + gatemon_class + '"><time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td>'
         + '</tr>').appendTo($('#lastupdated'));
       $(".timeago").timeago();
 
@@ -53,7 +60,7 @@ $(function() {
           $('<div class="col-lg-6 col-md-12"><div class="well"><table class="table" id="' + vpnserver_name + '"><thead><tr id="' + vpnserver_name + 'server"></tr><tr id="' + vpnserver_name + 'services"><td></td></tr><tr id="' + vpnserver_name + 'servicesfamily"><td></td></tr></thead><tbody></tbody></table></div></div>').appendTo($('#content'));
         }
 
-        $('<tr id="' + vpnserver_name + gatemon['uuid'] + '"><td title="Name: ' + gatemon['name'] + '\nProvider: ' + gatemon['provider'] + '\nVersion: ' + gatemon['version'] + '\nZuletzt aktualisiert: ' + gatemon['lastupdated'] + '">' + gatemon['name'] + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
+        $('<tr id="' + vpnserver_name + gatemon['uuid'] + '"><td class="' + gatemon_class + '" title="Name: ' + gatemon['name'] + '\nProvider: ' + gatemon['provider'] + '\nVersion: ' + gatemon['version'] + '\nZuletzt aktualisiert: ' + gatemon['lastupdated'] + '">' + gatemon['name'] + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
 
         // Iterate over services returned by gatemon
         counter = 0;
