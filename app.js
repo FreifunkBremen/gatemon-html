@@ -21,12 +21,26 @@ $(function() {
     // Reset counter for array
     gatemon_counter = 0;
 
+    $('<thead>'
+      +'<tr>'
+      + '<th>Gatemon Name</th>'
+      + '<th>Provider</th>'
+      + '<th>Version</th>'
+      + '<th>Last Update</time></th>'
+      + '</tr>'
+      + '</thead>').appendTo($('#lastupdated'));
+
     // Iterate over gatemons
     data.forEach(function(gatemon) {
       // Increment counter
       gatemon_counter++;
 
-      $('<tr><td>' + gatemon['provider'] + '</td><td> <time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td></tr>').appendTo($('#lastupdated'));
+      $('<tr>'
+        + '<td>' + gatemon['name'] + '</td>'
+        + '<td>' + gatemon['provider'] + '</td>'
+        + '<td>' + gatemon['version'] + '</td>'
+        + '<td><time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td>'
+        + '</tr>').appendTo($('#lastupdated'));
       $(".timeago").timeago();
 
       // Iterate over gatemon data
