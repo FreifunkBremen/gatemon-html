@@ -64,23 +64,21 @@ $(function() {
 
         // Iterate over services returned by gatemon
         counter = 0;
-        for (var key in vpnserver_data) {
-          // Check if item is an array
-          if (Object.prototype.toString.call(vpnserver_data[key]) === '[object Array]') {
-            counter++;
-            if (gatemon_counter <= 1) {
-              $('<td colspan="2" class="text-center">' + key + '</td>').appendTo($('#' + vpnserver_name + 'services'));
-              $('<td class="text-center">IPv4</td><td class="text-center">IPv6</td>').appendTo($('#' + vpnserver_name + 'servicesfamily'));
-            }
-
-            $.each(['ipv4', 'ipv6'], function() {
-              if (vpnserver_data[key][0][this]) {
-                $('<td class="good"></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
-              } else {
-                $('<td class="bad"></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
-              }
-            });
+        var vpnserver_status = vpnserver_data['status'];
+        for (var key in vpnserver_status) {
+          counter++;
+          if (gatemon_counter <= 1) {
+            $('<td colspan="2" class="text-center">' + key + '</td>').appendTo($('#' + vpnserver_name + 'services'));
+            $('<td class="text-center">IPv4</td><td class="text-center">IPv6</td>').appendTo($('#' + vpnserver_name + 'servicesfamily'));
           }
+
+          $.each(['ipv4', 'ipv6'], function() {
+            if (vpnserver_status[key][this]['up']) {
+              $('<td class="good"></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
+            } else {
+              $('<td class="bad"></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
+            }
+          });
         }
 
         if (gatemon_counter <= 1) {
