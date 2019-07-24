@@ -74,9 +74,9 @@ $(function() {
 
           $.each(['ipv4', 'ipv6'], function() {
             if (vpnserver_status[key][this]['up']) {
-              $('<td class="good"></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
+              $('<td class="good"' + (vpnserver_status[key][this]['time'] != false ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
             } else {
-              $('<td class="bad"></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
+              $('<td class="bad"' + (vpnserver_status[key][this]['time'] != false ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
             }
           });
         }
