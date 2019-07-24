@@ -100,8 +100,15 @@ function parseAndSanitizeInput ($report_text) {
 
     foreach (array('addresses', 'dns', 'ntp', 'uplink') as $topic) {
       foreach (array('ipv4', 'ipv6') as $addrType) {
-        $value = boolval($reportedServerData[$topic][0][$addrType]);
-        $newServerData['status'][$topic][$addrType]['up'] = $value;
+        if (!is_array($reportedServerData[$topic][0][$addrType]))
+          $newServerData['status'][$topic][$addrType]['up'] = boolval($reportedServerData[$topic][0][$addrType]);
+        else
+          $newServerData['status'][$topic][$addrType]['up'] = boolval($reportedServerData[$topic][0][$addrType]['status']);
+
+        if (isset($reportedServerData[$topic][0][$addrType]['time']))
+          $newServerData['status'][$topic][$addrType]['time'] = $reportedServerData[$topic][0][$addrType]['time'];
+        else
+          $newServerData['status'][$topic][$addrType]['time'] = false;
       }
     }
 
