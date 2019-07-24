@@ -85,11 +85,15 @@ function uploadToInfluxDB($report, $influxConfig) {
     $uploadText .= "gatemon,server=$serverName,gatemon=$gatemonId,gatemon_name=$gatemonName,gatemon_provider=$gatemonProvider ";
     foreach (array('ntp', 'addresses', 'dns', 'uplink') as $topic) {
       foreach (array('ipv4', 'ipv6') as $addrType) {
-        $value = '0.0';
+        $statusValue = '0.0';
         if ($serverState['status'][$topic][$addrType]['up']) {
-          $value = '1.0';
+          $statusValue = '1.0';
         }
-        $uploadText .= "${topic}.$addrType=$value,";
+        $uploadText .= "${topic}.$addrType=$statusValue,";
+        if ($serverState['status'][$topic][$addrType]['time']) {
+          $timeValue = floatval($serverState['status'][$topic][$addrType]['time']);
+          $uploadText .= "${topic}.$addrType.time=$timeValue,";
+        }
       }
     }
     $uploadText = rtrim($uploadText, ",");
