@@ -88,6 +88,8 @@ function parseAndSanitizeInput ($report_text) {
     'uuid' => $report_decoded['uuid'],
     'name' => $report_decoded['name'] ?? 'unknown',
     'provider' => $report_decoded['provider'] ?? 'unknown',
+    'node-hostname' => $report_decoded['node-hostname'] ?? 'unknown',
+    'node-id' => $report_decoded['node-id'] ?? 'unknown',
     'vpn-servers' => array(),
   );
 
