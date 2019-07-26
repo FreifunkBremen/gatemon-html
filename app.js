@@ -25,6 +25,7 @@ $(function() {
       +'<tr>'
       + '<th>Gatemon Name</th>'
       + '<th>Provider</th>'
+      + '<th>Node</th>'
       + '<th>Version</th>'
       + '<th>Last Update</time></th>'
       + '</tr>'
@@ -45,6 +46,7 @@ $(function() {
       $('<tr>'
         + '<td>' + gatemon['name'] + '</td>'
         + '<td>' + gatemon['provider'] + '</td>'
+        + '<td>' + ((gatemon['node-id'] != undefined) ? '<a href="https://map.bremen.freifunk.net/#!/map/' + gatemon['node-id'] + '">' + gatemon['node-hostname'] + '</a></td>' : '')
         + '<td>' + gatemon['version'] + '</td>'
         + '<td class="' + gatemon_class + '"><time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td>'
         + '</tr>').appendTo($('#lastupdated'));
