@@ -188,5 +188,5 @@ if __name__ == "__main__":
             + (" ".join(monitorPerfLines)) \
             + "\n"
 
-    print resultText
+    print resultText.encode("utf-8")
     sys.exit(cumulatedLevel)
