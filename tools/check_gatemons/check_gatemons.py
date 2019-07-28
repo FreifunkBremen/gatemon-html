@@ -113,12 +113,12 @@ if __name__ == "__main__":
                 continue
             serverLabel = requestedServers.get(server["name"], server["name"])
 
-            for serviceName in server:
+            for serviceName in server["status"]:
                 if serviceName not in ("ntp", "addresses", "dns", "uplink"):
                     continue
-                for addrType in server[serviceName][0]:
+                for addrType in server["status"][serviceName]:
                     fullName = "%s_%s_%s" % (serverLabel, serviceName, addrType)
-                    success = server[serviceName][0][addrType]
+                    success = server["status"][serviceName][addrType]["up"]
                     services[fullName]["total"]+=1
                     if success:
                         services[fullName]["good"]+=1
