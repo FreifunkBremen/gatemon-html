@@ -96,7 +96,7 @@ $(function() {
             if (vpnserver_status[key][this]['up']) {
               $('<td class="good"' + (vpnserver_status[key][this]['time'] != undefined ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
             } else {
-              $('<td class="bad"' + (vpnserver_status[key][this]['time'] != undefined ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + (vpnserver_status[key][this]["error-message"] != undefined ? "\nerror-message: " + vpnserver_status[key][this]["error-message"] : "") + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
+              $('<td class="bad" title="' + (vpnserver_status[key][this]['time'] != undefined ? 'run time: ' + vpnserver_status[key][this]['time'] + 's' : '') + (vpnserver_status[key][this]['error-message'] != undefined ? "\nerror-message: " + vpnserver_status[key][this]['error-message'] : '') + '"></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
             }
           });
         }
