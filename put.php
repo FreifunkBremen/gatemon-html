@@ -88,8 +88,9 @@ function parseAndSanitizeInput ($report_text) {
     'uuid' => $report_decoded['uuid'],
     'name' => $report_decoded['name'] ?? 'unknown',
     'provider' => $report_decoded['provider'] ?? 'unknown',
-    'node-hostname' => $report_decoded['node-hostname'] ?? 'unknown',
-    'node-id' => $report_decoded['node-id'] ?? 'unknown',
+    'node-hostname' => $report_decoded['node-hostname'] ?? NULL,
+    'node-id' => $report_decoded['node-id'] ?? NULL,
+    'current_vpn_server' => $report_decoded['current_vpn_server'] ?? NULL,
     'vpn-servers' => array(),
   );
 
@@ -107,10 +108,11 @@ function parseAndSanitizeInput ($report_text) {
         else
           $newServerData['status'][$topic][$addrType]['up'] = boolval($reportedServerData[$topic][0][$addrType]['status']);
 
-        if (isset($reportedServerData[$topic][0][$addrType]['time']))
+        if (isset($reportedServerData[$topic][0][$addrType]['time']) && !empty($reportedServerData[$topic][0][$addrType]['time']))
           $newServerData['status'][$topic][$addrType]['time'] = $reportedServerData[$topic][0][$addrType]['time'];
-        else
-          $newServerData['status'][$topic][$addrType]['time'] = false;
+
+        if (isset($reportedServerData[$topic][0][$addrType]['error-message']) && !empty($reportedServerData[$topic][0][$addrType]['error-message']))
+          $newServerData['status'][$topic][$addrType]['error-message'] = $reportedServerData[$topic][0][$addrType]['error-message'];
       }
     }
 

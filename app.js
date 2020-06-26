@@ -48,7 +48,9 @@ $(function() {
         + '<td>' + gatemon['provider'] + '</td>'
         + '<td>' + ((gatemon['node-id'] != 'unknown' && gatemon['node-id'] != undefined) ? '<a href="https://map.bremen.freifunk.net/#!/map/' + gatemon['node-id'] + '">' + gatemon['node-hostname'] + '</a></td>' : '')
         + '<td>' + gatemon['version'] + '</td>'
-        + '<td class="' + gatemon_class + '"><time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time></td>'
+        + '<td class="' + gatemon_class + '">'
+        + '<time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time>'
+        + '</td>'
         + '</tr>').appendTo($('#lastupdated'));
       $(".timeago").timeago();
 
@@ -59,10 +61,25 @@ $(function() {
 
         // Check if an element with ID of vpnserver exists
         if ($("#" + vpnserver_name).length == 0) {
-          $('<div class="col-lg-6 col-md-12"><div class="well"><table class="table" id="' + vpnserver_name + '"><thead><tr id="' + vpnserver_name + 'server"></tr><tr id="' + vpnserver_name + 'services"><td></td></tr><tr id="' + vpnserver_name + 'servicesfamily"><td></td></tr></thead><tbody></tbody></table></div></div>').appendTo($('#content'));
+          $('<div class="col-lg-6 col-md-12"><div class="well">'
+            + '<table class="table" id="' + vpnserver_name + '">'
+            + '<thead>'
+            + '<tr id="' + vpnserver_name + 'server"></tr>'
+            + '<tr id="' + vpnserver_name + 'services"><td></td></tr>'
+            + '<tr id="' + vpnserver_name + 'servicesfamily"><td></td></tr>'
+            + '</thead>'
+            + '<tbody></tbody>'
+            + '</table></div></div>').appendTo($('#content'));
         }
 
-        $('<tr id="' + vpnserver_name + gatemon['uuid'] + '"><td class="' + gatemon_class + '" title="Name: ' + gatemon['name'] + '\nProvider: ' + gatemon['provider'] + '\nVersion: ' + gatemon['version'] + '\nZuletzt aktualisiert: ' + gatemon['lastupdated'] + '">' + gatemon['name'] + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
+        $('<tr id="' + vpnserver_name + gatemon['uuid'] + '">'
+          + '<td class="' + gatemon_class + '" title="'
+          + 'Name: ' + gatemon['name'] + '\n'
+          + 'Provider: ' + gatemon['provider'] + '\n'
+          + 'Version: ' + gatemon['version'] + '\n'
+          + 'Zuletzt aktualisiert: ' + gatemon['lastupdated'] + '">'
+          + gatemon['name']
+          + '</td></tr>').appendTo($('#' + vpnserver_name + ' tbody'));
 
         // Iterate over services returned by gatemon
         counter = 0;
@@ -71,14 +88,15 @@ $(function() {
           counter++;
           if (gatemon_counter <= 1) {
             $('<td colspan="2" class="text-center">' + key + '</td>').appendTo($('#' + vpnserver_name + 'services'));
-            $('<td class="text-center">IPv4</td><td class="text-center">IPv6</td>').appendTo($('#' + vpnserver_name + 'servicesfamily'));
+            $('<td class="text-center">IPv4</td>'
+              + '<td class="text-center">IPv6</td>').appendTo($('#' + vpnserver_name + 'servicesfamily'));
           }
 
           $.each(['ipv4', 'ipv6'], function() {
             if (vpnserver_status[key][this]['up']) {
-              $('<td class="good"' + (vpnserver_status[key][this]['time'] != false ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
+              $('<td class="good"' + (vpnserver_status[key][this]['time'] != undefined ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
             } else {
-              $('<td class="bad"' + (vpnserver_status[key][this]['time'] != false ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
+              $('<td class="bad"' + (vpnserver_status[key][this]['time'] != undefined ? ' title="run time: ' + vpnserver_status[key][this]['time'] + 's"' : '') + (vpnserver_status[key][this]["error-message"] != undefined ? "\nerror-message: " + vpnserver_status[key][this]["error-message"] : "") + '></td>').appendTo($('#' + vpnserver_name + gatemon['uuid']));
             }
           });
         }
