@@ -258,7 +258,7 @@
   },
   {
     "uuid": "85087841a9504acc8bcc461680d6cc3a",
-    "name": "gatemon2",
+    "name": "gatemon2_umlauts_äöüß_test",
     "provider": "prov2",
         "vpn-servers": [
       {
