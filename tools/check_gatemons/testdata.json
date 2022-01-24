@@ -6,165 +6,252 @@
     "vpn-servers": [
       {
         "name": "vpn01.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn02.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn03.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn04.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       },
       {
         "name": "vpn05.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn06.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       }
     ],
     "lastupdated": "2018-02-25T22:18:13+01:00"
@@ -173,168 +260,256 @@
     "uuid": "85087841a9504acc8bcc461680d6cc3a",
     "name": "gatemon2",
     "provider": "prov2",
-    "vpn-servers": [
+        "vpn-servers": [
       {
         "name": "vpn01.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn02.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn03.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn04.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       },
       {
         "name": "vpn05.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn06.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       }
     ],
     "lastupdated": "2018-02-25T22:13:17+01:00"
@@ -343,168 +518,254 @@
     "uuid": "b6785cc0e43b44c3bcc0cf151f465122",
     "name": "gatemon3",
     "provider": "prov3",
-    "vpn-servers": [
+        "vpn-servers": [
       {
         "name": "vpn01.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn02.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn03.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn04.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       },
       {
         "name": "vpn05.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       },
       {
         "name": "vpn06.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       }
     ],
     "lastupdated": "2018-02-25T21:54:20+0100"
@@ -516,165 +777,248 @@
     "vpn-servers": [
       {
         "name": "vpn01.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       },
       {
         "name": "vpn02.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn03.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.1
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.1
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn04.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       },
       {
         "name": "vpn05.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 1,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 1,
-            "ipv6": 1
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.05
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.08
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : true,
+                    "time" : 0.15
+                },
+                "ipv6" : {
+                    "up" : true,
+                    "time" : 0.13
+                }
+            }
+        }
       },
       {
         "name": "vpn06.bremen.freifunk.net",
-        "ntp": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "addresses": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "dns": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ],
-        "uplink": [
-          {
-            "ipv4": 0,
-            "ipv6": 0
-          }
-        ]
+        "status" : {
+            "ntp" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "addresses" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "dns" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            },
+            "uplink" : {
+                "ipv4" : {
+                    "up" : false
+                },
+                "ipv6" : {
+                    "up" : false
+                }
+            }
+        }
       }
     ],
     "lastupdated": "2018-02-25T21:13:21+0000"
