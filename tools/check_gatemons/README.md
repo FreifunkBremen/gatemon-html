@@ -1,11 +1,11 @@
 # check_gatemons.py - Nagios/Icinga Script to Check Results of Gatemons
 
-The `check_gatemons.py` script downloads a merged.json file from a gatemon-html web server, checks whether the Gatemons have reported the services as (sufficiently) alive, and report the result in a format that can be used by Nagios and Icinga.
+The `check_gatemons.py` script downloads a merged.json file from a gatemon-html web server, checks whether the Gatemons have reported the services as (sufficiently) alive, and reports the result in a format that can be used by Nagios and Icinga.
 
 ## Requirements
-- Python 2
-- python-requests
-- python-dateutil
+- Python 3.7 or later
+- python3-requests
+- python3-dateutil
 
 ## Usage
 ```

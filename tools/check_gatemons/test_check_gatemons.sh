@@ -40,7 +40,7 @@ vpn1_uplink_ipv6: 1 bad reports (25%)|'vpn1_addresses_ipv4'=0%;50;80 'vpn1_dns_i
 # test with nonexisting hostname
 res=$(faketime -f '2018-02-25 22:20:00' ./check_gatemons.py -u "file://$(pwd)/testdata.json" -s nonexisting-hostname 2>/dev/null)
 assert [ "$?" -eq 3 ]
-assert [ "$res" == "UNKNOWN (Exception <type 'exceptions.Exception'>: no data available for server \"nonexisting-hostname\")" ]
+assert [ "$res" == "UNKNOWN (Exception <class 'Exception'>: no data available for server \"nonexisting-hostname\")" ]
 
 
 # test without any -s parameter

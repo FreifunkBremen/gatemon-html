@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #
 # Nagios/Icinga check script for reporting problems detected by Gatemons.
 #
 
 #
-# 2018, Oliver Gerlich <oliver.gerlich@gmx.de>
+# 2018-2022, Oliver Gerlich <oliver.gerlich@gmx.de>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification, are
@@ -55,11 +55,14 @@ def handleException(exc_type, exc_value, exc_traceback):
     """Handler for any uncaught exception."""
     if verboseLoggingEnabled:
         traceback.print_tb(exc_traceback)
-    print "UNKNOWN (Exception %s: %s)" % (exc_type, exc_value)
+    print("UNKNOWN (Exception %s: %s)" % (exc_type, exc_value))
     sys.exit(3)
 
 if __name__ == "__main__":
     sys.excepthook = handleException
+
+    # apparently the best encoding for Icinga plugin output is UTF-8:
+    sys.stdout.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--url", required=True, help="URL of gatemon page")
@@ -188,5 +191,5 @@ if __name__ == "__main__":
             + (" ".join(monitorPerfLines)) \
             + "\n"
 
-    print resultText.encode("utf-8")
+    print(resultText)
     sys.exit(cumulatedLevel)
