@@ -18,9 +18,6 @@ $(function() {
 
   // Parse response
   function parseResponse(data) {
-    // Reset counter for array
-    gatemon_counter = 0;
-
     $('<thead>'
       +'<tr>'
       + '<th>Gatemon Name</th>'
@@ -36,9 +33,6 @@ $(function() {
 
     // Iterate over gatemons
     data.forEach(function(gatemon) {
-      // Increment counter
-      gatemon_counter++;
-
       gatemon_class = "";
       if (Date.parse(gatemon['lastupdated']) < oldestAllowedTimestamp)
         gatemon_class = "outdated";
@@ -86,8 +80,8 @@ $(function() {
         var vpnserver_status = vpnserver_data['status'];
         for (var key in vpnserver_status) {
           counter++;
-          if (gatemon_counter <= 1) {
-            $('<td colspan="2" class="text-center">' + key + '</td>').appendTo($('#' + vpnserver_name + 'services'));
+          if ($('#' + vpnserver_name + 'servicesfamily-' + key).length < 1) {
+            $('<td id="' + vpnserver_name + 'servicesfamily-' + key + '" colspan="2" class="text-center">' + key + '</td>').appendTo($('#' + vpnserver_name + 'services'));
             $('<td class="text-center">IPv4</td>'
               + '<td class="text-center">IPv6</td>').appendTo($('#' + vpnserver_name + 'servicesfamily'));
           }
@@ -101,7 +95,7 @@ $(function() {
           });
         }
 
-        if (gatemon_counter <= 1) {
+        if ($('#' + vpnserver_name + 'server>th').length < 1) {
           $('<th colspan="' + (2 * counter + 1) + '" class="text-center">' + vpnserver_data['name'] + '</th>').appendTo($('#' + vpnserver_name + 'server'));
         }
       });
