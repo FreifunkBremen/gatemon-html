@@ -23,6 +23,7 @@ $(function() {
       + '<th>Gatemon Name</th>'
       + '<th>Provider</th>'
       + '<th>Node</th>'
+      + '<th>VPN Server</th>'
       + '<th>Version</th>'
       + '<th>Last Update</time></th>'
       + '</tr>'
@@ -41,6 +42,7 @@ $(function() {
         + '<td>' + gatemon['name'] + '</td>'
         + '<td>' + gatemon['provider'] + '</td>'
         + '<td>' + ((gatemon['node-id'] != 'unknown' && gatemon['node-id'] != undefined) ? '<a href="https://map.bremen.freifunk.net/#!/map/' + gatemon['node-id'] + '">' + gatemon['node-hostname'] + '</a></td>' : '')
+        + '<td>' + (gatemon['current_vpn_server'] ? gatemon['current_vpn_server'] : "(unknown)") + '</td>'
         + '<td>' + gatemon['version'] + '</td>'
         + '<td class="' + gatemon_class + '">'
         + '<time class="timeago" datetime="' + gatemon['lastupdated'] + '">' + gatemon['lastupdated'] + '</time>'
